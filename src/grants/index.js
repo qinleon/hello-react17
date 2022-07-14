@@ -35,12 +35,12 @@ let stores = [
     title: '商户分析',
     path: '/layouts/merchas',
     component: Merchans
+  },
+  {
+    title: '产品管理',
+    path: '/layouts/authManage/productManage',
+    component: Merchans
   }
 ]
 
-//1、获取本地存储的权限path
-
-//2、从stores(所有路由配置中筛选出当前登录用户的权限path)
-export default () => {
-  return stores
-}
+export default stores

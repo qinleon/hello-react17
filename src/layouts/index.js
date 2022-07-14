@@ -56,7 +56,7 @@ function Layouts(props) {
             <Route path="/layouts/merchanlist" component={Merchanlist}></Route>
             <Route path="/layouts/loginaccou" component={Loginaccou}></Route>
             <Route path="/layouts/merchas" component={Merchans}></Route>
-            <Route path="/authManage/productManage" component={ProductManage}></Route>
+            <Route path="/layouts/authManage/productManage" component={ProductManage}></Route>
 
             {/* 一定能匹配到 */}
             <Route component={Notfound}></Route>

@@ -2,7 +2,7 @@ import React from 'react'
 import { Menu } from 'antd'
 import { MailOutlined, AppstoreOutlined, LayoutOutlined } from '@ant-design/icons'
 import { NavLink } from 'react-router-dom'
-import userpathsFn from '../../grants'
+import allowRoutes from '../../grants'
 
 import './aside.css'
 
@@ -19,13 +19,12 @@ export default class Aside extends React.Component {
   //获取筛选过后新的用户权限路由配置
   componentDidMount() {
     this.setState({
-      userpaths: userpathsFn()
+      userpaths: allowRoutes
     })
   }
 
   isshowmeau(meaupath) {
-    console.log('userpathsFn()', userpathsFn())
-    let res = userpathsFn().some(item => item.path == meaupath)
+    let res = allowRoutes.some(item => item.path === meaupath)
     return res
   }
 
@@ -84,15 +83,13 @@ export default class Aside extends React.Component {
               </NavLink>
             </Menu.Item>
           </SubMenu>
-          <SubMenu key="sub2" icon={<AppstoreOutlined />} title="权限管理">
-            <Menu.Item key="9" style={{ display: this.isshowmeau('/layouts/merchanlist') ? 'block' : 'none' }}>
-              <NavLink to="/layouts/merchanlist" activeClassName="tochange">
-                商户列表
-              </NavLink>
-            </Menu.Item>
-            <Menu.Item key="10" style={{ display: this.isshowmeau('/authManage/productManage') ? 'block' : 'none' }}>
-              <NavLink to="/authManage/productManage" activeClassName="tochange">
-                登录账户
+          <SubMenu key="sub3" icon={<AppstoreOutlined />} title="权限管理">
+            <Menu.Item
+              key="10"
+              style={{ display: this.isshowmeau('/layouts/authManage/productManage') ? 'block' : 'none' }}
+            >
+              <NavLink to="/layouts/authManage/productManage" activeClassName="tochange">
+                产品管理
               </NavLink>
             </Menu.Item>
           </SubMenu>

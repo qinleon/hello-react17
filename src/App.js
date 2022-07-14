@@ -1,41 +1,39 @@
 import Layouts from './layouts'
 import React from 'react'
-import 'antd/dist/antd.css';
-import {Provider,connect} from 'react-redux'
-import {BrowserRouter,Route,Switch,Redirect,withRouter} from 'react-router-dom'
+import 'antd/dist/antd.css'
+import { Provider, connect } from 'react-redux'
+import { BrowserRouter, Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import Login from './pages/login/login'
 import store from './store'
-import { Space,Spin  } from 'antd';
-import userpaths from './grants'
-import './App.css';
-
+import { Space, Spin } from 'antd'
+import './App.css'
 
 class App extends React.Component {
-  constructor(props){
-    super(props);  
-    this.state={
-        isshowAdduser:false,
-        isload:store.getState().isload
-    } 
+  constructor(props) {
+    super(props)
+    this.state = {
+      isshowAdduser: false,
+      isload: store.getState().isload
+    }
   }
 
-  fn=(str)=>{
-    console.log('传来的str:',str);
-      this.setState({
-        isshowAdduser:str
-      });
+  fn = str => {
+    console.log('传来的str:', str)
+    this.setState({
+      isshowAdduser: str
+    })
   }
 
   render = () => (
     <div className="App">
       <BrowserRouter>
-        <Provider store={store} >
-          <Spin size="large" className="loading" spinning={false}/>
+        <Provider store={store}>
+          <Spin size="large" className="loading" spinning={false} />
           <Switch>
-              <Redirect exact={true} from="/" to="/login"></Redirect>
-              <Route path="/layouts" component={Layouts}></Route>
-              <Route path="/login" component={Login}></Route>
-          </Switch> 
+            <Redirect exact={true} from="/" to="/login"></Redirect>
+            <Route path="/layouts" component={Layouts}></Route>
+            <Route path="/login" component={Login}></Route>
+          </Switch>
         </Provider>
       </BrowserRouter>
     </div>
@@ -59,4 +57,3 @@ class App extends React.Component {
 //connect()连接redux和react组件
 // export default connect(mapStateToProps,mapDispatchToProps)(App)
 export default App
-

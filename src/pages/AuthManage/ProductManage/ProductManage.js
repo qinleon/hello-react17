@@ -4,12 +4,12 @@
  * @Author: Qleo
  * @Date: 2022-06-01 16:03:10
  * @LastEditors: Qleo
- * @LastEditTime: 2022-07-14 14:41:52
+ * @LastEditTime: 2022-07-14 16:08:52
  */
 import React from 'react'
 import './ProductManage.scss'
 import { getProductListAPI, getProductGroupListAPI } from '../../../api/auth/productClassAPI.js'
-import _debounce from 'lodash.debounce'
+import _ from 'lodash'
 
 import { Button, Modal, Checkbox } from 'antd'
 import AddProductGroupModal from './AddProductGroupModal.js'
@@ -177,7 +177,7 @@ export default class ProductManageClass extends React.Component {
     this.judgeCheckAll()
   }
   // 模糊搜索产品
-  searchProductCodeList = _debounce(() => {
+  searchProductCodeList = _.debounce(() => {
     const value = this.keywords
     this.setState({
       filterProductCodeList: this.state.productList
@@ -214,6 +214,7 @@ export default class ProductManageClass extends React.Component {
           <Button type="primary" onClick={this.showModal}>
             添加
           </Button>
+          <AddProductGroupModal visible={this.state.modalVisible}></AddProductGroupModal>
           <div className="group-list">
             {this.state.groupList.map(item => {
               return (
@@ -260,7 +261,6 @@ export default class ProductManageClass extends React.Component {
             })}
           </div>
         </div>
-        <AddProductGroupModal visible={this.state.modalVisible}></AddProductGroupModal>
       </div>
     )
   }
