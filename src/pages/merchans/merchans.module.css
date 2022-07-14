@@ -1,0 +1,20 @@
+.merchans{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.merchaleft{
+    width: 130px;
+    height: 100%;
+    /* background-color: red; */
+}
+.merchanright{
+    width: 1067px;
+    height: 100%;
+}
+
+.merchanbut{
+    margin: 20px 0;
+}

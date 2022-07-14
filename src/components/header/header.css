@@ -1,0 +1,117 @@
+.header_nav{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.h2{
+    font-size: 26px;
+    height: 40px;
+    color: #9b9b9b;
+    font-weight: bold;
+}
+
+.imgg img{
+    vertical-align: middle;
+    width: 166px;
+    height: 70px;
+    position: relative;
+    top: 50%;
+    transform: translateY(10%);
+}
+
+.meg{
+    height: 22px;
+    font-size: 12px;
+    color: #9b9b9b;
+    font-weight: 800;
+}
+.meg span{
+    display: inline-block;
+    width: 35px;
+    height: 18px;
+    border-radius: 8px;
+    background-color: #ff8400;
+    font-size: 12px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    line-height: 18px;
+    margin-left: 12px;
+}
+
+.welcoms{
+    width: 250px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #9b9b9b;
+    position: relative;
+    z-index: 4;
+}
+.ttp{
+    width: 100%;
+    line-height: 30px;
+    text-indent: 38px;
+}
+.wel_top{
+    width: 100%;
+    position: relative;
+}
+.ttp select{
+    height: 30px;
+    border: none;
+    outline: none;
+    font-size: 13px;
+    font-weight: bold;
+    color: #9b9b9b;
+    margin-left: 40px;
+}
+.wel_bot{
+    width: 100%;
+    height: 250px;
+    background-color: rgb(165, 203, 204);
+    position: absolute;
+    bottom: -250px;
+    display: none;
+}
+.wel_bot div{
+    font-size: 14px;
+    color: orangered;
+}
+.wel_bot div p{
+    height: 25px;
+    line-height: 25px;
+    text-indent: 45px;
+}
+.wel_bot div p:hover{
+    background-color: lightblue;
+    color: white;
+}
+.wel_bot .tp{
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid orange;
+}
+.wel_bot .tp a{
+    display: inline-block;
+    width: 43%;
+    height: 100%;
+    text-indent: 37px;
+}
+.wel_bot .tp a:hover{
+    color: rgb(20, 89, 145);
+}
+
+.wel_top:hover .wel_bot{
+    display: block;
+} 
+.wel_top:hover .ttp{
+    background-color: rgb(231, 173, 12);
+    color: black;
+}
+.wel_top:hover select{
+    background-color: rgb(231, 173, 12);
+    color: black;
+}
+

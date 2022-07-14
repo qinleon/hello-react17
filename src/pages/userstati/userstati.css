@@ -1,0 +1,14 @@
+.listBox{
+    display: flex;
+    justify-content: space-around;
+    overflow: hidden;
+}
+
+.list,.listchar{
+    margin-top: 15px;
+    background-color:rgb(74, 139, 165)
+}
+
+.listchar{
+
+}

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="28px" viewBox="0 0 22 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon-标题</title>
+    <defs>
+        <linearGradient x1="49.21875%" y1="100%" x2="50.78125%" y2="0%" id="linearGradient-1">
+            <stop stop-color="#1B62EC" offset="0%"></stop>
+            <stop stop-color="#4162EE" offset="100%"></stop>
+        </linearGradient>
+        <polygon id="path-2" points="0 16 2 16 2 0 0 0"></polygon>
+        <filter x="-525.0%" y="-46.9%" width="1150.0%" height="231.2%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="3" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="3" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.105882353   0 0 0 0 0.384313725   0 0 0 0 0.925490196  0 0 0 0.197240869 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="48%" y1="100%" x2="52%" y2="0%" id="linearGradient-4">
+            <stop stop-color="#507FDA" offset="0%"></stop>
+            <stop stop-color="#6780E9" offset="100%"></stop>
+        </linearGradient>
+        <polygon id="path-5" points="4 13 6 13 6 3 4 3"></polygon>
+        <filter x="-525.0%" y="-75.0%" width="1150.0%" height="310.0%" filterUnits="objectBoundingBox" id="filter-6">
+            <feOffset dx="0" dy="3" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="3" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.105882353   0 0 0 0 0.384313725   0 0 0 0 0.925490196  0 0 0 0.197240869 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="37.5%" y1="100%" x2="62.5%" y2="0%" id="linearGradient-7">
+            <stop stop-color="#A9BFE9" offset="0%"></stop>
+            <stop stop-color="#9DACEB" offset="100%"></stop>
+        </linearGradient>
+        <polygon id="path-8" points="8 10 10 10 10 6 8 6"></polygon>
+        <filter x="-525.0%" y="-187.5%" width="1150.0%" height="625.0%" filterUnits="objectBoundingBox" id="filter-9">
+            <feOffset dx="0" dy="3" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="3" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.105882353   0 0 0 0 0.384313725   0 0 0 0 0.925490196  0 0 0 0.197240869 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="页面" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="4权限管理-2用户管理" transform="translate(-34.000000, -131.000000)">
+            <g id="icon-标题" transform="translate(40.000000, 134.000000)">
+                <g id="Fill-1">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                    <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+                </g>
+                <g id="Fill-3">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+                    <use fill="url(#linearGradient-4)" fill-rule="evenodd" xlink:href="#path-5"></use>
+                </g>
+                <g id="Fill-4">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-9)" xlink:href="#path-8"></use>
+                    <use fill="url(#linearGradient-7)" fill-rule="evenodd" xlink:href="#path-8"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

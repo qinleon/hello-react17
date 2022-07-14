@@ -1,0 +1,49 @@
+.savet{
+    border-radius: 15px;
+    text-align: center;
+    display: block;
+    width: 40%;
+    height: 40%;
+    padding: 10px 15px;
+    height: 75%;
+    position: fixed;    
+    background-color: rgb(198, 238, 22);
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.savet tbody{
+    width: 90%;
+    height: 90%;
+}
+.savet input{
+    width: 300px;
+    height: 30px;
+    border: none;
+    border: cadetblue 1px solid;
+    outline: none;
+    text-indent: 15px;
+    border-radius: 10px;
+}
+
+.savet td{
+    text-align: center;
+}
+
+.savet button{
+    border-radius: 10px;
+    width: 90px;
+    height: 30px;
+    background-color: rgb(53, 175, 231);
+    font-size: 18px;
+    color: black;
+    text-align: center;
+    line-height: 30px;
+    margin-top: 15px;
+    margin-left: 20px;
+}
+.savet button:hover{
+    background-color: rgb(8, 136, 87);
+    color: #dd820a;
+}
+

@@ -1,0 +1,188 @@
+.left-group {
+  width: 300px;
+}
+.product-checkbox-group {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  cursor: pointer;
+  border: 1px solid #ccc;
+}
+
+.productManage {
+  display: flex;
+  justify-content: space-between;
+  height: calc(100vh - 110px);
+  .product-left {
+    width: 250px;
+    height: 100%;
+    background: #ffffff;
+    .product-left-header {
+      font-family: PingFangSC-Semibold;
+      font-size: 16px;
+      border-bottom: 1px solid #ccc;
+      padding: 15px 0px;
+      box-sizing: border-box;
+      color: rgba(0, 0, 0, 0.85);
+      font-weight: 500;
+      span {
+        margin-left: 20px;
+      }
+      .product-add {
+        float: right;
+        margin-right: 20px;
+        margin-top: 4px;
+      }
+    }
+    .group-body {
+      height: calc(100% - 55px);
+      overflow: auto;
+    }
+    .group-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 40px;
+      line-height: 40px;
+      border-left: 2px solid #fff;
+      color: rgba(0, 0, 0, 0.85);
+      text-align: left;
+      cursor: pointer;
+      &.active {
+        background: rgba(27, 98, 236, 0.06);
+        color: #1b62ec;
+        border-left: 2px solid #1b62ec;
+      }
+    }
+    .group-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  .product-right {
+    width: calc(100% - 264px);
+    height: 100%;
+    background: #fff;
+    padding: 15px 20px;
+    box-sizing: border-box;
+    .newTaskHeader {
+      margin-bottom: 10px;
+      padding-left: 24px;
+    }
+    .newTaskSpan {
+      width: 160px;
+      height: 28px;
+      font-family: PingFangSC-Medium;
+      font-size: 18px;
+      color: rgba(0, 0, 0, 0.85);
+      line-height: 28px;
+      font-weight: 500;
+      position: relative;
+    }
+    .newTaskSpan:before {
+      content: ' ';
+      position: absolute;
+      background-image: url('../../../assets/taskInitiation/background.svg');
+      top: 1px;
+      width: 25px;
+      height: 25px;
+      left: -30px;
+    }
+    ::v-deep .ant-spin-container {
+      height: 100%;
+      overflow: auto;
+    }
+    .product-right-middel {
+      .product-right-ul {
+        list-style-type: none;
+        display: flex;
+        text-align: center;
+        flex-flow: wrap;
+        color: rgba(0, 0, 0, 0.85);
+        .product-item {
+          display: flex;
+          justify-content: space-between;
+          width: 18.2%;
+          height: 40px;
+          line-height: 40px;
+          margin-right: 14px;
+          margin-bottom: 8px;
+          padding: 0 20px 0 24px;
+          background: #fafafa;
+          border-radius: 4px;
+          cursor: pointer;
+          .product-icon-name {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            margin-right: 4px;
+            text-align: left;
+            overflow: hidden;
+            white-space: nowrap;
+            .product-icon {
+              width: 20px;
+              height: 20px;
+              margin-right: 10px;
+            }
+            .product-name {
+              flex: 1;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              word-break: break-all;
+            }
+          }
+          .product-right-check {
+            margin-left: 4px;
+          }
+        }
+        .product-item:hover {
+          border: 0.2px solid rgba(27, 98, 236, 1);
+          box-shadow: 0px 0px 8px 0px rgba(184, 208, 255, 1);
+        }
+        .product--li-active {
+          background: #f1f5fe;
+        }
+      }
+    }
+    .product-right-foot {
+      text-align: center;
+      margin: 10px;
+    }
+  }
+  .newTaskC_B_S {
+    height: 32px;
+    display: inline-block;
+    background-image: linear-gradient(45deg, #1b62ec 0%, #4162ee 100%);
+    box-shadow: 0 3px 6px 0 rgba(27, 98, 236, 0.2);
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+    border-radius: 4px;
+    border: none;
+    margin-left: 15px;
+  }
+  .newTaskC_B {
+    height: 32px;
+    background: #f3f5ff;
+    border: 1px solid #a9b8d9;
+    box-shadow: 0 2px 6px 0 rgba(27, 98, 236, 0.15);
+    border-radius: 4px;
+    color: rgba(0, 0, 0, 0.65);
+    border: 1px solid #a9b8d9;
+  }
+}
+.visiblProduct {
+  .product-content {
+    display: flex;
+    span {
+      width: 90px;
+      line-height: 32px;
+    }
+  }
+}
+.noCursor {
+  ::v-deep .anticon[tabindex] {
+    cursor: default;
+  }
+}

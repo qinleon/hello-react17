@@ -1,0 +1,58 @@
+/* 保存 */
+.save_table{
+    width: 90%;
+    padding: 10px 15px;
+    height: 75%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+.save_table tbody{
+    width: 90%;
+    height: 270px;
+}
+.save_table input{
+    width: 300px;
+    height: 30px;
+    border: none;
+    border: cadetblue 1px solid;
+    outline: none;
+    text-indent: 15px;
+    border-radius: 10px;
+}
+
+.save_table td{
+    text-align: center;
+}
+
+
+/* 修改 */
+.update_tables{
+    width: 90%;
+    padding: 10px 15px;
+    height: 75%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+.update_tables tbody{
+    width: 90%;
+    height: 270px;
+}
+.update_tables input{
+    width: 300px;
+    height: 30px;
+    border: none;
+    border: cadetblue 1px solid;
+    outline: none;
+    text-indent: 15px;
+    border-radius: 10px;
+}
+
+.update_tables td{
+    text-align: center;
+}
+
+

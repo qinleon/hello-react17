@@ -1,0 +1,98 @@
+.loginaccou{
+    width: 100%;
+    height: 100%;
+}
+.loginacc{
+    width: 100%;
+    height: 90px;
+}
+.logincontent{
+    width: 100%;
+    height: 500px;
+}
+
+.loginacc h3{
+    font-size: 20px;
+    font-weight: bold;
+    color: orange;
+    margin-left: 16px;
+    margin-top: 10px;
+}
+
+.loginacc button{
+   width: 80px;
+   height: 40px;
+   border: none;
+   border-radius: 8px; 
+   font-size: 18px;
+   text-align: center;
+   line-height: 40px;
+   background-color: gainsboro;
+   margin: 0 5px;
+}
+.loginacc button:hover{
+    background-color: blue;
+    color: white;
+}
+
+/* 保存 */
+.savet{
+    width: 90%;
+    padding: 10px 15px;
+    height: 75%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+.savet tbody{
+    width: 90%;
+    height: 270px;
+}
+.savet input{
+    width: 300px;
+    height: 30px;
+    border: none;
+    border: cadetblue 1px solid;
+    outline: none;
+    text-indent: 15px;
+    border-radius: 10px;
+}
+
+.savet td{
+    text-align: center;
+}
+
+
+/* 修改 */
+.set_table{
+    width: 90%;
+    padding: 10px 15px;
+    height: 75%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+.set_table tbody{
+    width: 90%;
+    height: 270px;
+}
+.set_table input{
+    width: 300px;
+    height: 30px;
+    border: none;
+    border: cadetblue 1px solid;
+    outline: none;
+    text-indent: 15px;
+    border-radius: 10px;
+}
+
+.set_table td{
+    text-align: center;
+}
+
+
+
+
+
