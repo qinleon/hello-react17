@@ -112,7 +112,7 @@ export function getlogin(url, params) {
         code: 1,
         token: ranToken(),
         paths: res.data[0].paths,
-        curd: res.data[0].zsgc
+        curd: res.data[0].zsgc,
       })
     })
   })
@@ -135,7 +135,6 @@ function ranToken() {
 
 //拼接请求参数
 function queryStrFn(obj) {
-  let queryStr = ''
   let arr = []
   for (var key in obj) {
     if (obj[key]) {

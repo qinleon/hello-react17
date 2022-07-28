@@ -4,62 +4,57 @@
  * @Author: Qleo
  * @Date: 2022-07-13 10:39:20
  * @LastEditors: Qleo
- * @LastEditTime: 2022-07-14 16:29:47
+ * @LastEditTime: 2022-07-21 17:51:24
  */
 import React, { useEffect, useState } from 'react'
 import { Modal, Form, Input, message } from 'antd'
 import { getExecGopSave } from '../../../api/auth/productClassAPI.js'
 
-import { Button } from 'antd'
-
 const formItemLayout = {
   labelCol: { span: 4 },
-  wrapperCol: { span: 8 }
+  wrapperCol: { span: 8 },
 }
 
-const AddProductGroupModal = () => {
-  const [visible, setVisible] = useState(false)
+const AddProductGroupModal = props => {
   const [confirmLoading, setConfirmLoading] = useState(false)
   const [form] = Form.useForm()
-  const [checkNick, setCheckNick] = useState(false)
+  const { formData } = props
 
   useEffect(() => {
-    form.validateFields(['nickname'])
-  }, [checkNick, form])
+    form.setFieldsValue({
+      name: formData.name,
+    })
+  }, [form, formData])
 
-  const showModal = () => {
-    setVisible(true)
-  }
   const handleOk = async () => {
     try {
       const values = await form.validateFields()
       setConfirmLoading(true)
-      getExecGopSave(values)
+      getExecGopSave({ id: props.formData.id, ...values })
         .then(res => {
           setConfirmLoading(false)
-          setVisible(false)
           message.success('操作成功！')
+          props.onSuccess()
+          props.onCancel()
         })
         .catch(() => {
           setConfirmLoading(false)
+          props.onCancel()
         })
     } catch (errorInfo) {
       console.log('Failed:', errorInfo)
     }
   }
   const handleCancel = () => {
-    console.log('Clicked cancel button')
-    setVisible(false)
+    props.onCancel()
   }
+
   return (
     <>
-      <Button type="primary" onClick={showModal}>
-        添加
-      </Button>
       <Modal
         title="Title"
         forceRender
-        visible={visible}
+        visible={props.visible}
         onOk={handleOk}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
@@ -72,8 +67,8 @@ const AddProductGroupModal = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your name'
-              }
+                message: 'Please input your name',
+              },
             ]}
           >
             <Input placeholder="Please input your name" />

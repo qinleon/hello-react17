@@ -14,6 +14,8 @@ import Loginaccou from '../pages/loginaccou/loginaccou'
 import Merchans from '../pages/merchans/merchans'
 // 权限管理
 import ProductManage from '../pages/AuthManage/ProductManage/ProductManage.js'
+// 角色管理
+import RoleManage from '../pages/AuthManage/RoleManage/RoleManage'
 // 404
 import Notfound from '../pages/notfound/notfound'
 
@@ -42,9 +44,6 @@ function Layouts(props) {
         <Header></Header>
       </div>
       <div className="admin_bottom_box">
-        <div className="admin_left">
-          <Aside></Aside>
-        </div>
         <div className="admin_right">
           {/*  Switch排他性匹配 */}
           <Switch>
@@ -57,6 +56,7 @@ function Layouts(props) {
             <Route path="/layouts/loginaccou" component={Loginaccou}></Route>
             <Route path="/layouts/merchas" component={Merchans}></Route>
             <Route path="/layouts/authManage/productManage" component={ProductManage}></Route>
+            <Route path="/layouts/authManage/roleManage" component={RoleManage}></Route>
 
             {/* 一定能匹配到 */}
             <Route component={Notfound}></Route>

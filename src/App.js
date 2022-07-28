@@ -1,11 +1,11 @@
 import Layouts from './layouts'
 import React from 'react'
 import 'antd/dist/antd.css'
-import { Provider, connect } from 'react-redux'
-import { BrowserRouter, Route, Switch, Redirect, withRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import Login from './pages/login/login'
 import store from './store'
-import { Space, Spin } from 'antd'
+import { Spin } from 'antd'
 import './App.css'
 
 class App extends React.Component {
@@ -13,14 +13,14 @@ class App extends React.Component {
     super(props)
     this.state = {
       isshowAdduser: false,
-      isload: store.getState().isload
+      isload: store.getState().isload,
     }
   }
 
   fn = str => {
     console.log('传来的str:', str)
     this.setState({
-      isshowAdduser: str
+      isshowAdduser: str,
     })
   }
 

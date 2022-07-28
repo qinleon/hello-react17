@@ -9,8 +9,8 @@ export default class Tellogin extends React.Component {
     this.state = {
       loginobj: {
         username: '',
-        userpass: ''
-      }
+        userpass: '',
+      },
     }
   }
 
@@ -19,8 +19,8 @@ export default class Tellogin extends React.Component {
     this.setState({
       loginobj: {
         ...this.state.loginobj,
-        [e.target.name]: e.target.value
-      }
+        [e.target.name]: e.target.value,
+      },
     })
   }
 
@@ -38,17 +38,17 @@ export default class Tellogin extends React.Component {
       <table className={style.tellogin}>
         <tbody>
           <tr className={style.title}>
-            <td colSpan='2'>点餐后台管理系统登录</td>
+            <td colSpan="2">后台管理系统登录</td>
           </tr>
           <tr>
             <td>手机号:</td>
             <td>
               <input
-                name='username'
+                name="username"
                 onChange={this.changeval}
                 value={this.state.loginobj.username}
-                type='tel'
-                placeholder='请输入手机号'
+                type="tel"
+                placeholder="请输入手机号"
               />
             </td>
           </tr>
@@ -56,16 +56,16 @@ export default class Tellogin extends React.Component {
             <td>密码:</td>
             <td>
               <input
-                name='userpass'
+                name="userpass"
                 onChange={this.changeval}
                 value={this.state.loginobj.userpass}
-                type='password'
-                placeholder='请输入密码'
+                type="password"
+                placeholder="请输入密码"
               />
             </td>
           </tr>
           <tr className={style.logined}>
-            <td colSpan='2'>
+            <td colSpan="2">
               <button onClick={() => this.tologin()}>登录</button>
             </td>
           </tr>

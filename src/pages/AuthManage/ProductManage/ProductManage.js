@@ -4,107 +4,83 @@
  * @Author: Qleo
  * @Date: 2022-06-01 16:03:10
  * @LastEditors: Qleo
- * @LastEditTime: 2022-07-14 16:08:52
+ * @LastEditTime: 2022-07-27 15:04:06
  */
 import React from 'react'
 import './ProductManage.scss'
-import { getProductListAPI, getProductGroupListAPI } from '../../../api/auth/productClassAPI.js'
+import {
+  getProductListAPI,
+  getProductGroupListAPI,
+  beforeCheckDeleteProductGroupAPI,
+  deleteProductGroupAPI,
+  saveGroupProductInfoAPI,
+} from '../../../api/auth/productClassAPI.js'
 import _ from 'lodash'
 
-import { Button, Modal, Checkbox } from 'antd'
 import AddProductGroupModal from './AddProductGroupModal.js'
-
+import { Button, Modal, Checkbox, message, Input } from 'antd'
+import { ExclamationCircleOutlined } from '@ant-design/icons'
+const { confirm } = Modal
+const { Search } = Input
 export default class ProductManageClass extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       groupList: [],
       activeGroup: {},
-      productList: [
-        {
-          id: 21,
-          updateTime: '2022-05-27 16:40:25',
-          createTime: '2022-03-19 13:13:06',
-          deleteFlag: 'NO',
-          enterpriseCode: 'd5aa7cd2316987a6',
-          companyName: '微博',
-          productCode: 'd2f2ba3fd3199387',
-          productName: '新浪微博',
-          productNameEn: 'xinlangweibo',
-          offline: 'NO',
-          blockFlag: 0,
-          greyFlag: 0,
-          matchUrl: 'weibo.com',
-          sortNo: 1
-        },
-        {
-          id: 93,
-          updateTime: '2022-05-27 17:18:57',
-          createTime: '2022-05-19 17:51:58',
-          deleteFlag: 'NO',
-          enterpriseCode: '5bca57432136ee47',
-          companyName: '苹果公司',
-          productCode: 'b82b4d09ad79f8f6',
-          productName: 'dw',
-          productNameEn: 'dd',
-          offline: 'NO',
-          blockFlag: 0,
-          greyFlag: 0,
-          matchUrl: null,
-          sortNo: 1
-        },
-        {
-          id: 113,
-          updateTime: '2022-06-07 10:15:32',
-          createTime: '2022-06-07 10:15:32',
-          deleteFlag: 'NO',
-          enterpriseCode: 'd5aa7cd2316987a6',
-          companyName: '微博',
-          productCode: 'd5e7e76f30d0bbd3',
-          productName: 'AAAA1',
-          productNameEn: 'aaaa',
-          offline: 'NO',
-          blockFlag: 0,
-          greyFlag: 0,
-          matchUrl: null,
-          sortNo: 100004
-        },
-        {
-          id: 114,
-          updateTime: '2022-06-07 12:00:02',
-          createTime: '2022-06-07 12:00:02',
-          deleteFlag: 'NO',
-          enterpriseCode: 'cdc9dc265dd61586',
-          companyName: '新浪',
-          productCode: '38be597a802bda4a',
-          productName: '新闻',
-          productNameEn: 'piny',
-          offline: 'NO',
-          blockFlag: 0,
-          greyFlag: 0,
-          matchUrl: null,
-          sortNo: 100004
-        }
-      ],
+      productList: [],
       filterProductCodeList: [],
       checkedProductCodes: [],
       indeterminate: false,
       checkAll: false,
       isEdited: false,
       keywords: '',
-      modalVisible: false
+      addModal: {
+        visible: false,
+        actionType: 'add', //or 'edit'
+      },
+      addModalForm: {},
     }
+    this.getGroupList = this.getGroupList.bind(this)
   }
   componentDidMount() {
     this.getProductList()
-    this.getProductGroupList()
+    this.getGroupList()
   }
   // 获取分组
-  getProductGroupList = () => {
+  getGroupList = () => {
     getProductGroupListAPI({ number: 0, size: 99999 }).then(({ data }) => {
       this.setState({
-        groupList: data.content
+        groupList: data.content,
       })
+      let isAdd = false
+      if (data.content.length > this.state.groupList.length) {
+        isAdd = true
+      }
+      // 如果新增分组，则激活第一个，否则激活上次的
+      if (this.state.activeGroup.id && !isAdd) {
+        let newActiveGroup = this.state.groupList.find(item => item.id === this.state.activeGroup.id)
+        this.setState({
+          activeGroup: newActiveGroup || data.content[0],
+        })
+      } else {
+        this.setState({
+          activeGroup: data.content[0],
+        })
+      }
+      this.setState({
+        checkedProductCodes: [],
+      })
+      this.state.productList.forEach(j => {
+        this.state.activeGroup.list.forEach(i => {
+          if (i.productCode === j.productCode) {
+            this.setState({
+              checkedProductCodes: [...this.state.checkedProductCodes, i.productCode],
+            })
+          }
+        })
+      })
+      this.judgeCheckAll()
     })
   }
   // 左侧点击分组
@@ -115,15 +91,14 @@ export default class ProductManageClass extends React.Component {
         activeGroup: item,
         checkedProductCodes: item.list.map(item => item.productCode),
         isEdited: false,
-        keywords: ''
+        keywords: '',
       })
       that.searchProductCodeList()
     }
     if (this.state.isEdited && this.state.activeGroup.id !== item.id) {
-      const { confirm } = Modal
       confirm({
         title: '上次的修改还未保存，放弃修改并跳转吗?',
-        onOk: nextFn
+        onOk: nextFn,
       })
     } else {
       nextFn()
@@ -135,7 +110,7 @@ export default class ProductManageClass extends React.Component {
     getProductListAPI().then(({ data }) => {
       this.setState({
         productList: data,
-        filterProductCodeList: data.map(item => item.productCode)
+        filterProductCodeList: data.map(item => item.productCode),
       })
     })
   }
@@ -152,39 +127,48 @@ export default class ProductManageClass extends React.Component {
     this.setState({
       checkedProductCodes: checkedList,
       indeterminate: false,
-      checkAll: e.target.checked
+      checkAll: e.target.checked,
     })
   }
   // 右侧公司点击
   clickProduct = item => {
     this.setState({
-      isEdited: true
+      isEdited: true,
     })
     if (!this.state.checkedProductCodes.includes(item.productCode)) {
-      this.setState({
-        checkedProductCodes: [...this.state.checkedProductCodes, item.productCode]
-      })
+      this.setState(
+        () => ({
+          checkedProductCodes: [...this.state.checkedProductCodes, item.productCode],
+        }),
+        () => {
+          this.judgeCheckAll()
+        }
+      )
     } else {
       this.state.checkedProductCodes.forEach((i, index) => {
         if (i === item.productCode) {
           this.state.checkedProductCodes.splice(index, 1)
-          this.setState({
-            checkedProductCodes: this.state.checkedProductCodes
-          })
+          this.setState(
+            {
+              checkedProductCodes: this.state.checkedProductCodes,
+            },
+            () => {
+              this.judgeCheckAll()
+            }
+          )
         }
       })
     }
-    this.judgeCheckAll()
   }
   // 模糊搜索产品
-  searchProductCodeList = _.debounce(() => {
-    const value = this.keywords
+  searchProductCodeList = _.debounce((value = '') => {
     this.setState({
+      keywords: value,
       filterProductCodeList: this.state.productList
         .filter(item => {
           return item.productName.includes(value)
         })
-        .map(item => item.productCode)
+        .map(item => item.productCode),
     })
     this.judgeCheckAll()
   }, 500)
@@ -199,22 +183,96 @@ export default class ProductManageClass extends React.Component {
     }
     this.setState({
       indeterminate: !!viewCheckedLength && viewCheckedLength < this.state.filterProductCodeList.length,
-      checkAll: !!viewCheckedLength && viewCheckedLength === this.state.filterProductCodeList.length
+      checkAll: !!viewCheckedLength && viewCheckedLength === this.state.filterProductCodeList.length,
     })
   }
-  showModal = () => {
+  openAddModal = (item, e) => {
+    e?.stopPropagation()
+    e?.nativeEvent.stopImmediatePropagation()
+    if (item) {
+      this.setState({
+        addModal: { ...this.state.addModal, visible: true },
+        addModalForm: item,
+      })
+    } else {
+      this.setState({
+        addModal: { ...this.state.addModal, visible: true },
+        addModalForm: {},
+      })
+    }
+  }
+  closeAddModal = () => {
     this.setState({
-      modalVisible: true
+      addModal: { ...this.state.addModal, visible: false },
+      addModalForm: {},
     })
   }
+  // 删除
+  deleteGroup = group => {
+    let that = this
+    confirm({
+      title: '确定删除吗',
+      icon: <ExclamationCircleOutlined />,
+      onOk() {
+        return new Promise((resolve, reject) => {
+          beforeCheckDeleteProductGroupAPI([group.id]).then(({ data }) => {
+            if (data.length) {
+              confirm({
+                title: '提示',
+                content: '当前分类有角色占用，您确定要删除此分类吗？',
+                onOk() {
+                  return new Promise(resolve2 => {
+                    deleteProductGroupAPI([group.id]).then(({ data }) => {
+                      message.success('操作成功！')
+                      that.getGroupList()
+                      resolve2()
+                    })
+                  })
+                },
+              })
+            } else {
+              deleteProductGroupAPI([group.id]).then(({ data }) => {
+                message.success('操作成功！')
+                that.getGroupList()
+                resolve()
+              })
+            }
+          })
+        })
+      },
+    })
+  }
+  // 保存分组和产品信息 确定
+  saveGroupProductInfo = () => {
+    this.setState({
+      loadStatus: true,
+    })
+    saveGroupProductInfoAPI({
+      groupId: this.state.activeGroup.id,
+      productCodes: this.state.checkedProductCodes,
+    })
+      .then(res => {
+        this.setState({
+          loadStatus: false,
+          isEdited: false,
+        })
+        message.success('保存成功！')
+        this.getGroupList()
+      })
+      .finally(() => {
+        this.setState({
+          loadStatus: false,
+        })
+      })
+  }
+
   render() {
     return (
       <div className="productManage flex">
         <div className="left-group product-left">
-          <Button type="primary" onClick={this.showModal}>
+          <Button type="primary" onClick={this.openAddModal}>
             添加
           </Button>
-          <AddProductGroupModal visible={this.state.modalVisible}></AddProductGroupModal>
           <div className="group-list">
             {this.state.groupList.map(item => {
               return (
@@ -225,7 +283,27 @@ export default class ProductManageClass extends React.Component {
                   }}
                   key={item.id}
                 >
-                  {item.name}
+                  <div className="group-name flex-1">{item.name}</div>
+                  <div>
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={e => {
+                        this.openAddModal(item, e)
+                      }}
+                    >
+                      编辑
+                    </Button>
+                    <Button
+                      type="link"
+                      size="small"
+                      onClick={() => {
+                        this.deleteGroup(item)
+                      }}
+                    >
+                      删除
+                    </Button>
+                  </div>
                 </div>
               )
             })}
@@ -237,11 +315,20 @@ export default class ProductManageClass extends React.Component {
             onChange={this.onCheckAllChange}
             checked={this.state.checkAll}
           >
-            Check all
+            全选
           </Checkbox>
+          <Search
+            allowClear
+            placeholder="请输入产品名称"
+            onInput={e => {
+              this.searchProductCodeList(e.target.value)
+            }}
+            onSearch={this.searchProductCodeList}
+            style={{ width: 200 }}
+          />
           <div className="product-checkbox-group" value={this.state.checkedList}>
             {this.state.productList.map(item => {
-              if (item.productName !== '') {
+              if (item.productName !== '' && this.state.filterProductCodeList.includes(item.productCode)) {
                 return (
                   <div className="product" key={item.productCode}>
                     <Checkbox
@@ -260,7 +347,14 @@ export default class ProductManageClass extends React.Component {
               }
             })}
           </div>
+          <Button onClick={this.saveGroupProductInfo}>确定</Button>
         </div>
+        <AddProductGroupModal
+          visible={this.state.addModal.visible}
+          formData={this.state.addModalForm}
+          onCancel={this.closeAddModal}
+          onSuccess={this.getGroupList}
+        ></AddProductGroupModal>
       </div>
     )
   }

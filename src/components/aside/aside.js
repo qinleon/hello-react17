@@ -1,6 +1,6 @@
 import React from 'react'
 import { Menu } from 'antd'
-import { MailOutlined, AppstoreOutlined, LayoutOutlined } from '@ant-design/icons'
+import { MailOutlined, AppstoreOutlined } from '@ant-design/icons'
 import { NavLink } from 'react-router-dom'
 import allowRoutes from '../../grants'
 
@@ -12,14 +12,14 @@ export default class Aside extends React.Component {
   constructor(props) {
     super()
     this.state = {
-      userpaths: []
+      userpaths: [],
     }
   }
 
   //获取筛选过后新的用户权限路由配置
   componentDidMount() {
     this.setState({
-      userpaths: allowRoutes
+      userpaths: allowRoutes,
     })
   }
 
@@ -31,13 +31,7 @@ export default class Aside extends React.Component {
   render() {
     return (
       <>
-        <Menu
-          style={{ width: 161 }}
-          defaultOpenKeys={['sub1']}
-          // defaultSelectedKeys={['1']}
-          mode="inline"
-          theme="light"
-        >
+        <Menu mode="horizontal" theme="light">
           <SubMenu key="sub1" icon={<MailOutlined />} title="用户管理">
             {/* {
                  this.state.userpaths.map((item,idx)=>(
@@ -84,12 +78,14 @@ export default class Aside extends React.Component {
             </Menu.Item>
           </SubMenu>
           <SubMenu key="sub3" icon={<AppstoreOutlined />} title="权限管理">
-            <Menu.Item
-              key="10"
-              style={{ display: this.isshowmeau('/layouts/authManage/productManage') ? 'block' : 'none' }}
-            >
+            <Menu.Item key="10">
               <NavLink to="/layouts/authManage/productManage" activeClassName="tochange">
                 产品管理
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item key="11">
+              <NavLink to="/layouts/authManage/roleManage" activeClassName="tochange">
+                角色管理
               </NavLink>
             </Menu.Item>
           </SubMenu>

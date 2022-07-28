@@ -4,15 +4,15 @@
  * @Author: Qleo
  * @Date: 2022-06-01 19:11:00
  * @LastEditors: Qleo
- * @LastEditTime: 2022-07-13 16:53:46
+ * @LastEditTime: 2022-07-26 14:24:15
  */
 
-import http from '@src/api/request.js';
+import http from '@src/api/request.js'
 export function getProductListAPI() {
-  return http.post('/v1/exec/pt/list', {});
+  return http.post('/v1/exec/pt/list', {})
 }
 export function getProductGroupListAPI(param) {
-  return http.post('/v1/exec/g-o-p/page', param);
+  return http.post('/v1/exec/g-o-p/page', param)
 }
 // 获取列表数据接口
 export function getExecptList(params = {}) {
@@ -20,7 +20,7 @@ export function getExecptList(params = {}) {
     url: '/v1/exec/pt/list',
     method: 'post',
     data: params,
-  });
+  })
 }
 // 新增产品分类管理
 export function getExecGopSave(params) {
@@ -28,7 +28,7 @@ export function getExecGopSave(params) {
     url: '/v1/exec/g-o-p/save',
     method: 'post',
     data: params,
-  });
+  })
 }
 // 产品分类管理
 export function getExecGopPage(params) {
@@ -36,15 +36,15 @@ export function getExecGopPage(params) {
     url: '/v1/exec/g-o-p/page',
     method: 'post',
     data: params,
-  });
+  })
 }
 // 保存分组和产品信息
-export function saveGroupProductInfo(params) {
+export function saveGroupProductInfoAPI(params) {
   return http({
     url: '/v1/exec/g-o-p/saveGroupProductInfo',
     method: 'post',
     data: params,
-  });
+  })
 }
 
 /**
@@ -52,7 +52,7 @@ export function saveGroupProductInfo(params) {
  * @param {string[]} deleteIds
  */
 export function deleteProductGroupAPI(deleteIds) {
-  return http.post('/v1/exec/g-o-p/remove', { deleteIds });
+  return http.post('/v1/exec/g-o-p/remove', { deleteIds })
 }
 
 /**
@@ -60,7 +60,7 @@ export function deleteProductGroupAPI(deleteIds) {
  * @param {string[]} deleteIds
  */
 export function beforeCheckDeleteProductGroupAPI(deleteIds) {
-  return http.post('/v1/exec/g-o-p/check', { deleteIds });
+  return http.post('/v1/exec/g-o-p/check', { deleteIds })
 }
 
 /**
@@ -68,5 +68,5 @@ export function beforeCheckDeleteProductGroupAPI(deleteIds) {
  * @return {*}  null
  */
 export function getProductListByRoleAPI() {
-  return http.post('/v1/exec/r-m-code-group-mapping/getProductListByRole');
+  return http.post('/v1/exec/r-m-code-group-mapping/getProductListByRole')
 }
