@@ -68,10 +68,8 @@
 }
 .wel_bot {
   width: 100%;
-  height: 250px;
   background-color: rgb(165, 203, 204);
   position: absolute;
-  bottom: -250px;
   display: none;
 }
 .wel_bot div {

@@ -5,7 +5,6 @@ import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 
 // 组件
 import Header from '../components/header/header'
-import Aside from '../components/aside/aside'
 import Userlist from '../pages/Userlist/userlist'
 import Commuinfo from '../pages/commuinfo/commuinfo'
 import Userstati from '../pages/userstati/userstati'

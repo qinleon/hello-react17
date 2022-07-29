@@ -7,14 +7,14 @@ export default class Header extends React.Component {
   constructor(props) {
     super()
     this.state = {
-      username: ''
+      username: '',
     }
   }
 
   componentDidMount() {
     let username = localStorage.getItem('username')
     this.setState({
-      username: username ? username : '当前未登录账户'
+      username: username ? username : '当前未登录账户',
     })
   }
 
@@ -39,19 +39,10 @@ export default class Header extends React.Component {
             </div>
             <div className="wel_bot">
               <p className="tp">
-                <a href="">我的账户</a>
-                <span>丨</span>
                 <Link to="/login" onClick={this.toLogin}>
                   退出登录
                 </Link>
               </p>
-              <div>
-                <p>登录：100次</p>
-                <p>下单：100次</p>
-                <p>好评：100次</p>
-                <p>积分：1000分</p>
-                <p>安全级别：最高</p>
-              </div>
             </div>
           </div>
         </div>

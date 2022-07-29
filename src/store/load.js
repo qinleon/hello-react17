@@ -1,13 +1,12 @@
+let isload = 'false'
 
-let isload = "false"
+export default function (loading = isload, action) {
+  const { type, payload } = action
 
-export default function(loading=isload,action){
+  switch (type) {
+    case 'SHOWLOAD':
+      return payload
+  }
 
-    const {type,payload} = action
-
-    switch(type){
-        case "SHOWLOAD":return payload
-    }
-
-    return loading
+  return loading
 }

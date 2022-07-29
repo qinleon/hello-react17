@@ -1,5 +1,4 @@
 import React from 'react'
-import { loginAdmin } from '../../api/login'
 import { message } from 'antd'
 import style from './tellogin.module.css'
 
