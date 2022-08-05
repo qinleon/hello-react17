@@ -7,7 +7,8 @@ import Login from './pages/login/login'
 import store from './store'
 import { Spin } from 'antd'
 import './App.css'
-
+import { ConfigProvider } from 'antd'
+import zhCN from 'antd/es/locale/zh_CN'
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -25,18 +26,20 @@ class App extends React.Component {
   }
 
   render = () => (
-    <div className="App">
-      <BrowserRouter>
-        <Provider store={store}>
-          <Spin size="large" className="loading" spinning={false} />
-          <Switch>
-            <Redirect exact={true} from="/" to="/login"></Redirect>
-            <Route path="/layouts" component={Layouts}></Route>
-            <Route path="/login" component={Login}></Route>
-          </Switch>
-        </Provider>
-      </BrowserRouter>
-    </div>
+    <ConfigProvider locale={zhCN}>
+      <div className="App">
+        <BrowserRouter>
+          <Provider store={store}>
+            <Spin size="large" className="loading" spinning={false} />
+            <Switch>
+              <Redirect exact={true} from="/" to="/login"></Redirect>
+              <Route path="/layouts" component={Layouts}></Route>
+              <Route path="/login" component={Login}></Route>
+            </Switch>
+          </Provider>
+        </BrowserRouter>
+      </div>
+    </ConfigProvider>
   )
 }
 

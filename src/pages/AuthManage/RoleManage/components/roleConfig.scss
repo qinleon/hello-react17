@@ -1,0 +1,77 @@
+.permissions-web {
+  .ant-popover-inner-content {
+    display: grid;
+    grid-template-columns: repeat(6, auto);
+  }
+  .permissions-div {
+    margin-bottom: 15px;
+    span {
+      font-size: 14px;
+      color: rgba(0, 0, 0, 0.85);
+    }
+  }
+  .flex-between {
+    display: flex;
+    justify-content: space-between;
+  }
+  .ant-checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 10px;
+    & > span {
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .ant-checkbox-wrapper {
+      max-width: calc(100% - 40px);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .badge {
+    border-radius: 40%;
+    width: 25px;
+    display: inline-block;
+    text-align: center;
+    font-size: 12px;
+    cursor: pointer;
+    color: rgb(144, 144, 144);
+    background-color: rgb(238, 238, 238);
+    &.active {
+      color: rgb(65, 126, 241);
+      background-color: rgb(213, 226, 255);
+    }
+  }
+  .ant-popover-inner-content {
+    display: grid;
+    grid-template-columns: repeat(6, auto);
+  }
+  .custom-tooltip {
+    .grid-div {
+      display: grid;
+      grid-template-columns: repeat(6, auto);
+    }
+    .gird-item {
+      padding: 10px;
+      text-align: center;
+    }
+  }
+}
+.drawer-footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid #e9e9e9;
+  padding: 10px 16px;
+  background: #fff;
+  text-align: right;
+  z-index: 1;
+}
+.my-el-popover {
+  .ant-popover-inner-content {
+    display: grid;
+    grid-template-columns: repeat(6, auto);
+  }
+}

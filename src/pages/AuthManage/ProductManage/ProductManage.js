@@ -4,7 +4,7 @@
  * @Author: Qleo
  * @Date: 2022-06-01 16:03:10
  * @LastEditors: Qleo
- * @LastEditTime: 2022-07-27 15:04:06
+ * @LastEditTime: 2022-08-05 14:32:50
  */
 import React from 'react'
 import './ProductManage.scss'
@@ -41,11 +41,15 @@ export default class ProductManageClass extends React.Component {
       },
       addModalForm: {},
     }
-    this.getGroupList = this.getGroupList.bind(this)
   }
   componentDidMount() {
     this.getProductList()
     this.getGroupList()
+  }
+  componentWillUnmount = () => {
+    this.setState = (state, callback) => {
+      return
+    }
   }
   // 获取分组
   getGroupList = () => {
@@ -349,12 +353,12 @@ export default class ProductManageClass extends React.Component {
           </div>
           <Button onClick={this.saveGroupProductInfo}>确定</Button>
         </div>
-        <AddProductGroupModal
+        {/* <AddProductGroupModal
           visible={this.state.addModal.visible}
           formData={this.state.addModalForm}
           onCancel={this.closeAddModal}
           onSuccess={this.getGroupList}
-        ></AddProductGroupModal>
+        ></AddProductGroupModal> */}
       </div>
     )
   }

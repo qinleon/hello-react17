@@ -11,7 +11,7 @@
 
 .admin_bottom_box {
   width: 100%;
-  height: calc(100% - 108px);
+  height: calc(100% - 52px);
   display: flex;
 }
 

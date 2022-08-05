@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import useSyncCallback from '@src/hooks/useSyncState.js'
+import useSyncCallback from '@src/hooks/useSyncCallback.js'
 import { Button, Table, Tag, Input } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 import './RoleManage.scss'
 import _ from 'lodash'
-// import RoleConfig from './components/roleConfig.vue'
-// import RoleDetail from './components/roleDetail.vue'
-import { getRoleListAPI, updateRoleStatusAPI } from '@src/api/auth/roleManage'
+import RoleConfig from './components/roleConfig.js'
+import RoleDetail from './components/roleDetail.js'
+import { getRoleListAPI } from '@src/api/auth/roleManage'
 const { Column } = Table
 
 const RoleManage = props => {
@@ -22,7 +22,8 @@ const RoleManage = props => {
     total: 0,
   })
   const [curRole, setCurRole] = useState({})
-
+  const [roleConfigVisible, setRoleConfigVisible] = useState(false)
+  const [roleDetailVisible, setRoleDetailVisible] = useState(false)
   useEffect(() => {
     getRoleList()
   }, [])
@@ -50,24 +51,24 @@ const RoleManage = props => {
     })
   }
   const handleTableChange = newPagination => {
-    console.log(newPagination)
     setPagination({ ...newPagination })
     syncGetRoleList()
   }
-  const syncGetRoleList = useSyncCallback(() => {
-    getRoleList()
-  })
+  const syncGetRoleList = useSyncCallback(getRoleList)
   // 配置权限
   const getPermissions = record => {
     setCurRole(record)
-    this.$refs.permissions.visible = true
-    this.$refs.permissions.getProductTypeList(record)
+    setRoleConfigVisible(true)
+  }
+  const roleConfigOnClose = () => {
+    setRoleConfigVisible(false)
   }
   const getSee = record => {
     setCurRole(record)
-    this.$refs.rolesee.visibleSee = true
-    this.$refs.rolesee.getUserListByRole(record)
-    this.$refs.rolesee.getProductTypeList(record)
+    setRoleDetailVisible(true)
+  }
+  const roleDetailOnClose = () => {
+    setRoleDetailVisible(false)
   }
 
   return (
@@ -98,7 +99,16 @@ const RoleManage = props => {
           </Button>
         </div>
       </div>
-      <Table rowKey={record => record.id} pagination={pagination} dataSource={tableData} onChange={handleTableChange}>
+      <Table
+        rowKey={record => record.id}
+        pagination={{
+          ...pagination,
+          showSizeChanger: true,
+          showQuickJumper: true,
+        }}
+        dataSource={tableData}
+        onChange={handleTableChange}
+      >
         <Column title="序号" dataIndex="index" key="index" render={(text, record, index) => <>{index + 1}</>} />
         <Column title="角色名称" dataIndex="name" key="name" render={text => <>{text || '-'}</>} />
         <Column title="角色编码" dataIndex="code" key="code" render={text => <>{text || '-'}</>} />
@@ -127,6 +137,8 @@ const RoleManage = props => {
           )}
         />
       </Table>
+      <RoleConfig role={curRole} visible={roleConfigVisible} onClose={roleConfigOnClose} />
+      <RoleDetail role={curRole} visible={roleDetailVisible} onClose={roleDetailOnClose} />
     </div>
   )
 }
