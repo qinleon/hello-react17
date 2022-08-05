@@ -4,7 +4,7 @@
  * @Author: Qleo
  * @Date: 2022-06-01 16:03:10
  * @LastEditors: Qleo
- * @LastEditTime: 2022-08-05 14:32:50
+ * @LastEditTime: 2022-08-05 19:25:44
  */
 import React from 'react'
 import './ProductManage.scss'
@@ -112,6 +112,7 @@ export default class ProductManageClass extends React.Component {
   // 获取产品列表
   getProductList = () => {
     getProductListAPI().then(({ data }) => {
+      console.log(this)
       this.setState({
         productList: data,
         filterProductCodeList: data.map(item => item.productCode),

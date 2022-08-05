@@ -15,6 +15,8 @@ import Merchans from '../pages/merchans/merchans'
 import ProductManage from '../pages/AuthManage/ProductManage/ProductManage.js'
 // 角色管理
 import RoleManage from '../pages/AuthManage/RoleManage/RoleManage'
+// 字典管理
+import UserDictionary from '../pages/SystemManage/dictionary/UserDictionary'
 // 404
 import Notfound from '../pages/notfound/notfound'
 
@@ -56,6 +58,7 @@ function Layouts(props) {
             <Route path="/layouts/merchas" component={Merchans}></Route>
             <Route path="/layouts/authManage/productManage" component={ProductManage}></Route>
             <Route path="/layouts/authManage/roleManage" component={RoleManage}></Route>
+            <Route path="/layouts/systemManage/userDictionary" component={UserDictionary}></Route>
 
             {/* 一定能匹配到 */}
             <Route component={Notfound}></Route>

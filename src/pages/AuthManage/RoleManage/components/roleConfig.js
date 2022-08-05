@@ -14,6 +14,12 @@ const RoleConfig = props => {
   let tempTableData = []
   let productTypeList = []
 
+  const [arr, setArr] = useState([{ name: '123' }])
+  const changeArr = item => {
+    item.name = 456
+    console.log(arr)
+    setArr([...arr])
+  }
   const afterVisibleChange = visible => {
     if (visible) {
       getProductTypeList(role)
@@ -260,6 +266,7 @@ const RoleConfig = props => {
           bordered
           pagination={false}
         ></Table>
+        <div onClick={() => changeArr(arr[0])}>{arr.map(item => item.name)}</div>
         <div className="drawer-footer">
           <Button style={{ marginRight: '8px' }} onClick={onClose}>
             取消

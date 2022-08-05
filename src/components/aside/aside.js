@@ -40,6 +40,11 @@ class Aside extends React.Component {
             { label: '角色管理', key: '/layouts/authManage/roleManage' },
           ],
         },
+        {
+          label: '系统管理',
+          key: 'sub4',
+          children: [{ label: '任务配置', key: '/layouts/systemManage/userDictionary' }],
+        },
       ],
     }
   }

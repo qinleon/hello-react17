@@ -1,0 +1,69 @@
+
+.UserDictionary {
+  .query-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 20px 24px;
+    background: #fff;
+    .query-left {
+      white-space: nowrap;
+      .query-item {
+        margin-right: 20px;
+      }
+    }
+  }
+  .container {
+    padding: 20px 24px;
+    background: #fff;
+  }
+
+  .mainTable ::v-deep {
+    margin-top: 15px;
+    .ant-table-expanded-row {
+      background: #f5f5f5;
+    }
+  }
+  .subTable  {
+    .ant-table-small {
+      border: none;
+    }
+    .ant-table-small > .ant-table-content > .ant-table-body {
+      margin: 0;
+    }
+    .ant-table-small > .ant-table-content > .ant-table-body > table > .ant-table-thead > tr > th {
+      margin: 0;
+      padding-left: 20px !important;
+      background: #fafafa !important;
+    }
+    .ant-table-small > .ant-table-content > .ant-table-body > table > .ant-table-tbody > tr > td {
+      padding-left: 20px;
+      background: #fff;
+    }
+  }
+  .tablePage {
+    padding: 15px;
+    padding-bottom: 0;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+.addModal {
+  .addTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    p {
+      font-size: 16px;
+      color: #333;
+    }
+  }
+  .addSubDictBtn {
+    width: 606px;
+    margin: 0 auto;
+    height: 32px;
+    border: 1px dashed #c7c7c7;
+    cursor: pointer;
+  }
+}
