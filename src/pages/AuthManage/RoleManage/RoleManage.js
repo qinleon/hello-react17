@@ -26,6 +26,7 @@ const RoleManage = props => {
   const [roleDetailVisible, setRoleDetailVisible] = useState(false)
   useEffect(() => {
     getRoleList()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // 搜索

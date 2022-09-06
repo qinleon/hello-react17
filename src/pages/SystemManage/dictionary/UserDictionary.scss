@@ -19,7 +19,7 @@
     background: #fff;
   }
 
-  .mainTable ::v-deep {
+  .mainTable {
     margin-top: 15px;
     .ant-table-expanded-row {
       background: #f5f5f5;
@@ -65,5 +65,8 @@
     height: 32px;
     border: 1px dashed #c7c7c7;
     cursor: pointer;
+  }
+  .ant-row.ant-form-item-row{
+    flex-wrap: nowrap;
   }
 }

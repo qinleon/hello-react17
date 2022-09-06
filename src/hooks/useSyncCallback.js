@@ -5,6 +5,7 @@ const useSyncCallback = callback => {
 
   const Func = useCallback(() => {
     setProxyState({ current: true })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [proxyState])
 
   useEffect(() => {

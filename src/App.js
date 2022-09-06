@@ -2,13 +2,13 @@ import Layouts from './layouts'
 import React from 'react'
 import 'antd/dist/antd.css'
 import { Provider } from 'react-redux'
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
-import Login from './pages/login/login'
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 import store from './store'
 import { Spin } from 'antd'
 import './App.css'
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -32,9 +32,7 @@ class App extends React.Component {
           <Provider store={store}>
             <Spin size="large" className="loading" spinning={false} />
             <Switch>
-              <Redirect exact={true} from="/" to="/login"></Redirect>
-              <Route path="/layouts" component={Layouts}></Route>
-              <Route path="/login" component={Login}></Route>
+              <Route path="/" component={Layouts}></Route>
             </Switch>
           </Provider>
         </BrowserRouter>

@@ -4,9 +4,9 @@
  * @Author: Qleo
  * @Date: 2022-07-14 15:24:50
  * @LastEditors: Qleo
- * @LastEditTime: 2022-07-14 15:24:51
+ * @LastEditTime: 2022-09-06 14:57:49
  */
-const LOGIN_COOKIE_NAME = 'vue_admin_template_token'
+const LOGIN_COOKIE_NAME = 'frontend_ec_token'
 
 export function isAuthenticated() {
   return _getCookie(LOGIN_COOKIE_NAME)

@@ -53,3 +53,20 @@ export const SHOWLOAD = payload => ({
   type: 'SHOWLOAD',
   payload,
 })
+
+// export const login = (params) => {
+//   return new Promise((resolve, reject) => {
+//     loginAPI(params)
+//       .then(response => {
+//         const { data } = response
+//         sessionStorage.clear()
+//         // const { token, name, userId, username, homeUrl } = data
+//         commit('SET_TOKEN', data)
+//         setToken(data)
+//         resolve()
+//       })
+//       .catch(error => {
+//         reject(error)
+//       })
+//   })
+// }

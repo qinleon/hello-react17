@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import useSyncCallback from '@src/hooks/useSyncCallback.js'
-import { Button, Table, Input, DatePicker, Pagination, message, Modal, Col, Row, Form } from 'antd'
-import { ReloadOutlined, SearchOutlined } from '@ant-design/icons'
+import { Button, Table, Input, DatePicker, Pagination, message, Modal, Divider, Form, Space } from 'antd'
+import { MinusCircleOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons'
 import _ from 'lodash'
+import './UserDictionary.scss'
+import { withRouter } from 'react-router-dom'
 
 import {
   getDictionaryList,
@@ -17,7 +19,7 @@ import { strLenValid, validSpace } from '@src/utils/validate.js'
 const { confirm } = Modal
 const { RangePicker } = DatePicker
 
-const UserDictionary = () => {
+const UserDictionary = props => {
   const [newQuery, setNewQuery] = useState({
     dictName: undefined,
     dictType: undefined,
@@ -26,9 +28,8 @@ const UserDictionary = () => {
     endTime: '',
   })
   let oldQuery = {}
-  let newQueryBackup = {}
-  let labelColModal = { span: 4 }
-  let wrapperColModal = { span: 20 }
+  let labelColModal = { flex: '100px' }
+  let wrapperColModal = { flex: 1 }
   const [tableData, setTableData] = useState([])
   const [subTableData, setSubTableData] = useState([])
   const [subTableLoading, setSubTableLoading] = useState(false)
@@ -46,20 +47,35 @@ const UserDictionary = () => {
     dictType: undefined,
     dictContent: [],
   })
-  let copyModalForm = {}
+  const [modalFormRef] = Form.useForm()
   const [confirmLoading, setConfirmLoading] = useState(false)
-  const [selectedRowKeysDetail, setSelectedRowKeysDetail] = useState([])
-  const [selectedRowDetail, setSelectedRowDetail] = useState([])
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [expandedRowKeys, setExpandedRowKeys] = useState([]) // 展开的行
   const [bindRoleDrawer, setBindRoleDrawer] = useState({
     visible: false,
     dictionary: {},
   }) // 绑定角色的抽屉
-  copyModalForm = _.cloneDeep(modalForm)
-  newQueryBackup = _.cloneDeep(newQuery)
+
+  let dictCategory = props.history.location.pathname === '/layouts/systemManage/userDictionary' ? 'USER' : 'SYSTEM'
+  let isAdmin = true || props.history.location.meta?.authBtn?.includes('adminBtn')
+
+  let copyModalForm = useRef({})
+  let newQueryBackup = useRef({})
+
   useEffect(() => {
-    // fn_getDictionaryList()
+    copyModalForm.current = _.cloneDeep(modalForm)
+    newQueryBackup.current = _.cloneDeep(newQuery)
+    fn_getDictionaryList()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const changeNewQuery = (e, key) => {
+    console.log(key)
+    setNewQuery({
+      ...newQuery,
+      [key]: e.target.value,
+    })
+  }
   //   搜索
   const fn_search = () => {
     setFilterObj({
@@ -74,29 +90,20 @@ const UserDictionary = () => {
       ...filterObj,
       number: 1,
     })
-    setNewQuery(_.cloneDeep(newQueryBackup))
-    oldQuery = _.cloneDeep(newQueryBackup)
+    console.log(newQueryBackup)
+    setNewQuery(_.cloneDeep(newQueryBackup.current))
+    oldQuery = _.cloneDeep(newQueryBackup.current)
     fn_getDictionaryList()
   }
-  // 分页方法
-  const handleChangeCurrent = num => {
-    setFilterObj({
-      ...filterObj,
-      number: num,
-    })
-    setSelectedRowKeysDetail([])
-    setSelectedRowDetail([])
-    fn_getDictionaryList()
-  }
-  // 改变每页条数
+  // 分页方法  // 改变每页条数
   const onShowSizeChange = (num, size) => {
     setFilterObj({
       ...filterObj,
-      size: size,
+      number: num,
+      size: size || filterObj.size,
     })
-    setSelectedRowKeysDetail([])
-    setSelectedRowDetail([])
-    fn_getDictionaryList()
+    setSelectedRowKeys([])
+    syncGetDictionaryList()
   }
   // 获取列表数据
   const fn_getDictionaryList = () => {
@@ -128,11 +135,16 @@ const UserDictionary = () => {
         setLoading(false)
       })
   }
+  const syncGetDictionaryList = useSyncCallback(fn_getDictionaryList)
   // 打开弹框
   const openModal = val => {
     if (val) {
+      console.log(val)
       setModalTitle('编辑字典')
-      setModalForm(_.cloneDeep(val))
+      setModalForm(val)
+      modalFormRef.setFieldsValue({
+        ...val,
+      })
     } else {
       setModalTitle('新增字典')
     }
@@ -141,23 +153,21 @@ const UserDictionary = () => {
   // 新增字典或者修改
   const addDictionary = async () => {
     try {
-      const values = await modalForm.validateFields()
-      console.log('Success:', values)
-      if (values) {
-        setConfirmLoading(true)
-        saveDictionary({ ...this.modalForm, dictCategory: this.dictCategory })
-          .then(res => {
-            message.success('操作成功')
-            setConfirmLoading(false)
-            setModalVisible(false)
-            this.fn_getDictionaryList()
-            this.expandedRowsChange()
-            // this.$store.dispatch('dic/getDictList')
-          })
-          .catch(() => {
-            setConfirmLoading(false)
-          })
-      }
+      const values = await modalFormRef.validateFields()
+      console.log(values)
+      setConfirmLoading(true)
+      saveDictionary({ id: modalForm.id, ...values, dictCategory: dictCategory })
+        .then(res => {
+          message.success('操作成功')
+          setConfirmLoading(false)
+          fn_getDictionaryList()
+          expandedRowsChange()
+          closeModal()
+          // this.$store.dispatch('dic/getDictList')
+        })
+        .catch(() => {
+          setConfirmLoading(false)
+        })
     } catch (errorInfo) {
       console.log('Failed:', errorInfo)
     }
@@ -166,51 +176,28 @@ const UserDictionary = () => {
   const closeModal = () => {
     setModalVisible(false)
     setModalForm(_.cloneDeep(copyModalForm))
-    this.$refs.modalForm.clearValidate()
-  }
-  // 添加子项
-  const parentAdd = () => {
-    if (modalForm.dictContent) {
-      setModalForm({
-        ...modalForm,
-        dictContent: [
-          ...modalForm.dictContent,
-          {
-            dictName: undefined,
-            dictType: undefined,
-          },
-        ],
-      })
-    } else {
-      setModalForm({
-        ...modalForm,
-        dictContent: [
-          {
-            dictName: undefined,
-            dictType: undefined,
-          },
-        ],
-      })
-    }
+    modalFormRef.resetFields()
   }
   // 删除子项
-  const delItemBtn = (subDict, index) => {
-    const that = this
+  const delItemBtn = (index, callback) => {
+    console.log(index)
     confirm({
       title: '提示',
       content: '您确定要删除吗？',
       onOk() {
-        if (subDict.id) {
-          deleteSubDictAPI(that.modalForm.id, subDict.id).then(({ data }) => {
-            that.$message.success('操作成功！')
-            that.fn_getDictionaryList()
-            that.modalForm.dictContent.splice(index, 1)
-            that.expandedRowsChange()
-            that.$store.dispatch('dic/getDictList')
+        if (modalForm.dictContent[index]?.id) {
+          deleteSubDictAPI(modalForm.id, modalForm.dictContent[index].id).then(({ data }) => {
+            message.success('操作成功！')
+            fn_getDictionaryList()
+            modalForm.dictContent.splice(index, 1)
+            callback()
+            expandedRowsChange()
+            // $store.dispatch('dic/getDictList')
           })
         } else {
-          that.modalForm.dictContent.splice(index, 1)
-          that.$message.success('操作成功！')
+          modalForm.dictContent.splice(index, 1)
+          callback()
+          message.success('操作成功！')
         }
       },
     })
@@ -229,12 +216,14 @@ const UserDictionary = () => {
   }
   // 展开表格
   const expandedRowsChange = keys => {
+    let newKeys = []
     if (keys) {
-      setExpandedRowKeys(keys.slice(-1))
+      newKeys = keys.slice(-1)
+      setExpandedRowKeys(newKeys)
     }
-    if (expandedRowKeys.length) {
+    if (newKeys.length) {
       setSubTableLoading(true)
-      getSubDictListByDictAPI(expandedRowKeys[0])
+      getSubDictListByDictAPI(newKeys[0])
         .then(({ data }) => {
           setSubTableData(
             data.map(item => {
@@ -255,16 +244,8 @@ const UserDictionary = () => {
     }
   }
   // 表格的多项选择
-  const onSelectChangeDetail = (selectedRowKeys, row) => {
-    setSelectedRowDetail(selectedRowKeys)
-    if (row.length === 0) {
-      setSelectedRowDetail([])
-    } else {
-      const result = row.map(v => {
-        return v.id
-      })
-      setSelectedRowDetail(result)
-    }
+  const onSelectChange = (selectedRowKeys, row) => {
+    setSelectedRowKeys(selectedRowKeys)
   }
   // 打开绑定角色的抽屉
   const openBindRoleDrawer = dict => {
@@ -275,8 +256,7 @@ const UserDictionary = () => {
   }
   // 批量删除
   const fn_delete = (val, text, item) => {
-    if (val || selectedRowDetail.length > 0) {
-      var that = this
+    if (val || selectedRowKeys.length > 0) {
       confirm({
         title: '提示',
         content: text,
@@ -285,21 +265,20 @@ const UserDictionary = () => {
           if (val) {
             deleteIds = [item.id]
           } else {
-            deleteIds = that.selectedRowDetail
+            deleteIds = selectedRowKeys
           }
           return new Promise((resolve, reject) => {
             delDictionaryAPI({ deleteIds })
               .then(res => {
-                that.$message.success('删除成功！')
-                that.fn_getDictionaryList()
+                message.success('删除成功！')
+                fn_getDictionaryList()
                 if (!val) {
-                  that.selectedRowKeysDetail = []
-                  that.selectedRowDetail = []
+                  setSelectedRowKeys([])
                 }
                 resolve()
               })
               .catch(() => {
-                that.$message.success('删除失败！')
+                message.success('删除失败！')
                 reject()
               })
           })
@@ -318,6 +297,7 @@ const UserDictionary = () => {
       width: 100,
       render: (text, record, index) => `${index + 1}`,
     },
+    Table.EXPAND_COLUMN,
     {
       title: '字典名称',
       dataIndex: 'dictName',
@@ -370,21 +350,26 @@ const UserDictionary = () => {
             <Button type="link" size="small" onClick={() => openModal(record)}>
               编辑
             </Button>
-            <a-divider v-if="isAdmin" type="vertical" />
-            <template v-if="dictCategory === 'USER' && isAdmin">
-              <Button type="link" size="small" onClick={() => openBindRoleDrawer(record)}>
-                配置
-              </Button>
-              <a-divider type="vertical" />
-            </template>
-            <Button
-              v-if="isAdmin"
-              type="link"
-              size="small"
-              onClick={() => fn_delete(true, '您确定要删除当前字典信息吗？', record)}
-            >
-              删除
-            </Button>
+            {isAdmin ? (
+              <>
+                <Divider type="vertical" />
+                {dictCategory === 'USER' ? (
+                  <>
+                    <Button type="link" size="small" onClick={() => openBindRoleDrawer(record)}>
+                      配置
+                    </Button>
+                    <Divider type="vertical" />
+                  </>
+                ) : null}
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={() => fn_delete(true, '您确定要删除当前字典信息吗？', record)}
+                >
+                  删除
+                </Button>
+              </>
+            ) : null}
           </div>
         )
       },
@@ -420,23 +405,30 @@ const UserDictionary = () => {
       { validator: validSpace(), trigger: 'blur' },
     ],
   }
-  let dictCategory = () => {
-    return this.$route.path === '/systemManagement/userDictionary' ? 'USER' : 'SYSTEM'
-  }
-  let isAdmin = () => {
-    return this.$route.meta.authBtn?.includes('adminBtn')
-  }
+
   return (
     <div className="UserDictionary">
-      {/* <div className="query-bar flex-between">
+      <div className="query-bar flex-between">
         <div className="query-left flex-center-v flex-wrap">
           <div className="query-item flex-center-v">
             <div className="label">字典名称：</div>
-            <Input v-model="newQuery.dictName" placeholder="请输入字典名称" allow-clear style={{ width: '200px' }} />
+            <Input
+              value={newQuery.dictName}
+              placeholder="请输入字典名称"
+              allowClear={true}
+              style={{ width: '200px' }}
+              onChange={e => changeNewQuery(e, 'dictName')}
+            />
           </div>
           <div className="query-item flex-center-v">
             <div className="label">创建人：</div>
-            <Input v-model="newQuery.createdBy" placeholder="请输入创建人" allow-clear style={{ width: '200px' }} />
+            <Input
+              value={newQuery.createdBy}
+              placeholder="请输入创建人"
+              allowClear={true}
+              style={{ width: '200px' }}
+              onChange={e => changeNewQuery(e, 'createdBy')}
+            />
           </div>
           <div className="query-item flex-center-v">
             <div className="label">创建时间：</div>
@@ -463,7 +455,7 @@ const UserDictionary = () => {
         <div className="flex-between">
           <div className="base-title">字典列表</div>
           <div v-if="isAdmin">
-            <Button className="base-btn" onClick={openModal()}>
+            <Button className="base-btn" onClick={() => openModal()}>
               <svg-icon icon-className="add" className="mission-query-svg" />
               新建
             </Button>
@@ -475,14 +467,13 @@ const UserDictionary = () => {
         </div>
         <Table
           className="mainTable"
-          rowKey="item => item.id"
+          rowKey={item => item.id}
           dataSource={tableData}
           columns={tableHead}
           loading={loading}
           pagination={false}
           expandIconAsCell={false}
-          expandIconColumnIndex={1}
-          rowSelection={{ selectedRowKeys: selectedRowKeysDetail, onChange: onSelectChangeDetail }}
+          rowSelection={{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }}
           expandedRowKeys={expandedRowKeys}
           onExpandedRowsChange={expandedRowsChange}
           expandable={{
@@ -490,7 +481,7 @@ const UserDictionary = () => {
               <Table
                 className="subTable"
                 size="small"
-                row-key="item => item.id"
+                rowKey={item => item.id}
                 columns={subTableHead}
                 dataSource={subTableData}
                 loading={subTableLoading}
@@ -507,10 +498,9 @@ const UserDictionary = () => {
             <Pagination
               total={filterObj.total}
               current={filterObj.number}
-              page-size={filterObj.size}
-              page-size-options={filterObj.pageSizeOptions}
-              show-size-changer
-              onChange={handleChangeCurrent}
+              pageSize={filterObj.size}
+              showSizeChanger
+              onChange={onShowSizeChange}
               onShowSizeChange={onShowSizeChange}
             />
           </div>
@@ -520,71 +510,67 @@ const UserDictionary = () => {
           title={modalTitle}
           afterClose={closeModal}
           confirmLoading={confirmLoading}
-          mask-closable={false}
+          maskClosable={false}
           className="addModal"
           width="700px"
           onOk={addDictionary}
+          onCancel={closeModal}
         >
-          <Form form={modalForm} rules={rules} labelCol={labelColModal} wrapperCol={wrapperColModal}>
-            <Form.Item label="字典名称" prop="dictName" style={{ paddingLeft: '5px' }}>
-              <Input v-if="isAdmin" v-model="modalForm.dictName" placeholder="最多输入50字" />
-              <span v-else>{modalForm.dictName}</span>
+          <Form form={modalFormRef} labelCol={labelColModal} wrapperCol={wrapperColModal} name="fddaf">
+            <Form.Item label="字典名称" name="dictName" rules={[{ required: true, message: '请输入字典名称' }]}>
+              <Input placeholder="最多输入50字" />
             </Form.Item>
-            <Form.Item label="字典编码" prop="dictType" style={{ paddingLeft: '5px' }}>
-              <Input v-if="isAdmin" v-model="modalForm.dictType" placeholder="最多输入50字" />
-              <span v-else>{modalForm.dictType}</span>
+            <Form.Item label="字典编码" required>
+              {isAdmin ? (
+                <Form.Item name="dictType" rules={[{ required: true, message: '请输入字典编码' }]}>
+                  <Input placeholder="最多输入50字" />
+                </Form.Item>
+              ) : (
+                <span>{modalForm.dictType}</span>
+              )}
             </Form.Item>
             <div className="addTitle">
               <p>子项列表</p>
             </div>
-            {modalForm.dictContent.map((item, index) => (
-              <div key={index} className="parentItem">
-                <Row type="flex">
-                  <Col span="11">
-                    <Form.Item
-                      label="名称"
-                      label-col="{ span: 7 }"
-                      wrapper-col="{ span: 17 }"
-                      prop="'dictContent.' + index + '.dictName'"
-                      rules={[
-                        { required: true, message: '请输入名称', trigger: 'blur' },
-                        { validator: strLenValid(50), trigger: 'blur' },
-                        { validator: validSpace(), trigger: 'blur' },
-                      ]}
-                    >
-                      <Input v-model="item.dictName" placeholder="最多输入50字" />
-                    </Form.Item>
-                  </Col>
-                  <Col span="11">
-                    <Form.Item
-                      label="编码"
-                      label-col="{ span: 7 }"
-                      wrapper-col="{ span: 17 }"
-                      prop="'dictContent.' + index + '.dictType'"
-                      rules={[
-                        { required: true, message: '请输入编码', trigger: 'blur' },
-                        { validator: strLenValid(50), trigger: 'blur' },
-                        { validator: validSpace(), trigger: 'blur' },
-                      ]}
-                    >
-                      <Input v-model="item.dictType" placeholder="最多输入50字" />
-                    </Form.Item>
-                  </Col>
-                  <Col span="2">
-                    <Button type="link" onClick={() => delItemBtn(item, index)}>
-                      <svg-icon icon-className="icon-delete" className="mission-query-svg" />
+            <Form.List name="dictContent">
+              {(fields, { add, remove }) => (
+                <>
+                  {fields.map(({ key, name, ...restField }) => (
+                    <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
+                      <Form.Item
+                        {...restField}
+                        label="字典名称"
+                        name={[name, 'dictName']}
+                        className="flex-1"
+                        style={{ flexWrap: 'nowrap' }}
+                        rules={[{ required: true, message: '请输入字典名称' }]}
+                      >
+                        <Input placeholder="最多输入50字" />
+                      </Form.Item>
+                      <Form.Item
+                        {...restField}
+                        label="字典编码"
+                        name={[name, 'dictType']}
+                        className="flex-1"
+                        rules={[{ required: true, message: '请输入字典编码' }]}
+                      >
+                        <Input placeholder="最多输入50字" />
+                      </Form.Item>
+                      <MinusCircleOutlined onClick={() => delItemBtn(key, () => remove(name))} />
+                    </Space>
+                  ))}
+                  <Form.Item>
+                    <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                      添加子项
                     </Button>
-                  </Col>
-                </Row>
-              </div>
-            ))}
-            <div className="addSubDictBtn flex-center" onClick={parentAdd}>
-              添加子项
-            </div>
+                  </Form.Item>
+                </>
+              )}
+            </Form.List>
           </Form>
         </Modal>
-      </div> */}
+      </div>
     </div>
   )
 }
-export default UserDictionary
+export default withRouter(UserDictionary)

@@ -4,7 +4,7 @@
  * @Author: Qleo
  * @Date: 2022-06-01 16:03:10
  * @LastEditors: Qleo
- * @LastEditTime: 2022-08-05 19:25:44
+ * @LastEditTime: 2022-08-11 11:24:40
  */
 import React from 'react'
 import './ProductManage.scss'
@@ -354,12 +354,12 @@ export default class ProductManageClass extends React.Component {
           </div>
           <Button onClick={this.saveGroupProductInfo}>确定</Button>
         </div>
-        {/* <AddProductGroupModal
+        <AddProductGroupModal
           visible={this.state.addModal.visible}
           formData={this.state.addModalForm}
           onCancel={this.closeAddModal}
           onSuccess={this.getGroupList}
-        ></AddProductGroupModal> */}
+        ></AddProductGroupModal>
       </div>
     )
   }

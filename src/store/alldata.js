@@ -1,6 +1,5 @@
 var data = []
-
-export default (db = data, action) => {
+const alldata = (db = data, action) => {
   const { type, payload } = action
 
   switch (type) {
@@ -21,8 +20,8 @@ export default (db = data, action) => {
       console.log('修改后传来的payload', payload)
       return payload
     default:
-      return ''
+      return db
   }
-
-  return db
 }
+
+export default alldata

@@ -1,11 +1,9 @@
 import React from 'react'
 import { Menu } from 'antd'
-import { MailOutlined, AppstoreOutlined } from '@ant-design/icons'
-import { NavLink, withRouter } from 'react-router-dom'
+import { MailOutlined } from '@ant-design/icons'
+import { withRouter } from 'react-router-dom'
 import allowRoutes from '../../grants'
 import './aside.css'
-
-const { SubMenu } = Menu
 
 class Aside extends React.Component {
   constructor(props) {
