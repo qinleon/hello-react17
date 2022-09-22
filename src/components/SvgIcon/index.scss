@@ -1,0 +1,30 @@
+.svg-icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+.svg-external-icon {
+  background-color: currentColor;
+  mask-size: cover !important;
+  display: inline-block;
+}
+.mySvg {
+  fill: currentColor;
+  color: #a6a6a6;
+  &:hover {
+    color: #1b62ec;
+  }
+}
+.ant-btn.ant-btn-primary {
+  .mySvg {
+    fill: currentColor;
+    color: #fff;
+    margin-right: 6px;
+    &:hover {
+      color: #fff;
+    }
+  }
+}

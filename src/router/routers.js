@@ -1,5 +1,5 @@
 // 组件
-import Userlist from '../pages/Userlist/userlist'
+import GkList from '../pages/taskInitiation/gkList/GkList'
 import Commuinfo from '../pages/commuinfo/commuinfo'
 import Userstati from '../pages/userstati/userstati'
 import Merchanlist from '../pages/merchanlist/merchanlist'
@@ -15,7 +15,7 @@ import UserDictionary from '../pages/SystemManage/dictionary/UserDictionary'
 import Notfound from '../pages/notfound/notfound'
 const routers = [
   { path: '/', component: UserDictionary },
-  { path: '/layouts/userlist', component: Userlist },
+  { path: '/layouts/gkList', component: GkList, meta: { authBtn: '23' }, auth: true },
   { path: '/layouts/commuinfo', component: Commuinfo },
   { path: '/layouts/userstati', component: Userstati },
   { path: '/layouts/merchanlist', component: Merchanlist },

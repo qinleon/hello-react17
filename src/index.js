@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals'
 import { loginAPI } from '@src/api/login'
 import { authenticateSuccess } from '@src/utils/Session.js'
 import { param2Obj } from '@src/utils/myContext.js'
+import '@/icons' // icon
 // 地址栏是否有code
 function login(code) {
   return new Promise((resolve, reject) => {

@@ -1,0 +1,133 @@
+.SubtaskTemplate {
+  overflow: hidden;
+  .tag {
+    position: absolute;
+    top: -30px;
+    left: -30px;
+    transform: rotate(-45deg);
+    transform-origin: center center;
+    width: 60px;
+    height: 60px;
+    line-height: 100px;
+    text-align: center;
+    background-image: linear-gradient(224deg, rgba(27, 98, 236, 0) 0%, rgba(27, 98, 236, 0.3) 100%);
+    font-size: 12px;
+    color: #1b62ec;
+    overflow: hidden;
+    user-select: none;
+    &.MC_GROUP {
+      color: #0faed0;
+      background-image: linear-gradient(224deg, rgba(15, 174, 208, 0) 0%, rgba(15, 174, 208, 0.3) 100%);
+    }
+    &.MC_PLATES {
+      color: rgba(62, 73, 87, 1);
+      background-image: linear-gradient(224deg, rgba(62, 73, 87, 0) 0%, rgba(62, 73, 87, 0.3) 100%);
+    }
+    &.MC_APPLICATION {
+      color: #0faed0;
+      background-image: linear-gradient(224deg, rgba(15, 174, 208, 0) 0%, rgba(15, 174, 208, 0.3) 100%);
+    }
+    &.MC_LIVE_STREAM {
+      color: rgba(132, 91, 231, 1);
+      background-image: linear-gradient(224deg, rgba(132, 91, 231, 0) 0%, rgba(132, 91, 231, 0.3) 100%);
+    }
+    &.MC_CONTENT {
+      color: #0faed0;
+      background-image: linear-gradient(224deg, rgba(240, 192, 23, 0) 0%, rgba(240, 192, 23, 0.3) 100%);
+    }
+    &.MC_CONTENT {
+      color: rgba(6, 184, 11, 1);
+      background-image: linear-gradient(224deg, rgba(6, 184, 11, 0) 0%, rgba(6, 184, 11, 0.3) 100%);
+    }
+  }
+  .cover {
+    width: 97px;
+    height: 72px;
+    margin-right: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .flex-right-top {
+    white-space: nowrap;
+    overflow: hidden;
+    > div > span:not(:last-child)::after {
+      display: inline-block;
+      margin: 0 10px;
+      content: '';
+      border-right: 1px solid rgba(0, 0, 0, 0.65);
+      width: 0px;
+      height: 0.8em;
+    }
+  }
+  .right-container {
+    overflow: hidden;
+    .right-header {
+      .name {
+        white-space: nowrap;
+        max-width: 500px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 16px;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 1);
+        margin-right: 20px;
+        cursor: pointer;
+      }
+      .white-tag,
+      .grey-tag,
+      .black-tag {
+        padding: 0 5px;
+        background: #da5e5e;
+        border-radius: 2px;
+        font-size: 12px;
+        color: #ffffff;
+        line-height: 24px;
+        margin-right: 20px;
+      }
+      .grey-tag {
+        background: #43648c;
+      }
+      .black-tag {
+        background: #333;
+      }
+
+      .createtime {
+        margin-left: 40px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+    }
+    .right-middle {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+    }
+  }
+  .comment {
+    .user-info {
+      .head-img {
+        width: 30px;
+        height: 30px;
+      }
+      font-size: 16px;
+      font-weight: 500;
+      color: rgba(0, 0, 0, 1);
+    }
+    .comment-text {
+      margin-top: 10px;
+      line-height: 16px;
+      font-size: 16px;
+      font-weight: 500;
+      color: rgba(0, 0, 0, 1);
+    }
+    .comment-article {
+      margin-top: 10px;
+      margin-bottom: 6px;
+      padding: 8px 12px;
+      background: #f7f7f7;
+      font-size: 14px;
+      color: #666666;
+    }
+  }
+}

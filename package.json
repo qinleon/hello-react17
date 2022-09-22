@@ -46,6 +46,7 @@
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "0.11.3",
     "optimize-css-assets-webpack-plugin": "5.0.4",
+    "pinyin-pro": "^3.11.0",
     "pnp-webpack-plugin": "1.6.4",
     "postcss-flexbugs-fixes": "4.2.1",
     "postcss-loader": "3.0.0",
@@ -53,6 +54,7 @@
     "postcss-preset-env": "6.7.0",
     "postcss-safe-parser": "5.0.2",
     "prompts": "2.4.0",
+    "qrcode.react": "^3.1.0",
     "react": "^17.0.2",
     "react-app-polyfill": "^2.0.0",
     "react-dev-utils": "^11.0.3",
@@ -80,13 +82,17 @@
     "start": "set PORT=3001 && node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "server": "json-server db.json"
+    "server": "json-server db.json",
+    "lint": "eslint --fix --ext .js --ext .jsx --ext .vue src"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "eqeqeq": 2
+    }
   },
   "browserslist": {
     "production": [
@@ -102,7 +108,8 @@
   },
   "devDependencies": {
     "json-server": "^0.16.3",
-    "sass": "^1.53.0"
+    "sass": "^1.53.0",
+    "svg-sprite-loader": "^6.0.11"
   },
   "jest": {
     "roots": [

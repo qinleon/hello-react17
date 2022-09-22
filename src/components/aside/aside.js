@@ -12,13 +12,10 @@ class Aside extends React.Component {
       userpaths: [],
       menus: [
         {
-          label: '用户管理',
+          label: '处置管理',
           key: 'sub1',
           icon: <MailOutlined />,
-          children: [
-            { label: '用户列表', key: '/layouts/userlist' },
-            { label: '通讯信息', key: '/layouts/commuinfo' },
-          ],
+          children: [{ label: '新建任务', key: '/layouts/gkList' }],
         },
         {
           label: '商户管理',
@@ -59,7 +56,7 @@ class Aside extends React.Component {
     return res
   }
   onClick = e => {
-    this.props.history.push(e.key)
+    this.props.history.push(e.key, { info: '2323' })
   }
 
   render() {

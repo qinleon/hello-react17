@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="9px" height="14px" viewBox="0 0 9 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>路径 2</title>
+    <defs>
+        <linearGradient x1="100%" y1="50%" x2="0%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#2569EC" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="策略配置-CZ流程配置" transform="translate(-1022.000000, -284.000000)" fill="url(#linearGradient-1)">
+            <g id="编组-14" transform="translate(74.000000, 182.000000)">
+                <polygon id="路径-2" transform="translate(952.647791, 109.463986) rotate(-270.000000) translate(-952.647791, -109.463986) " points="946.147791 108.152698 954.841744 108.127826 954.841744 105.455506 959.147791 109.491675 954.841744 113.472466 954.841744 110.800146 946.147791 110.756712"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,91 @@
+.GkList {
+  .top-query {
+    position: relative;
+    margin-bottom: 12px;
+    padding: 18px 170px 18px 30px;
+    background: #fff;
+    .top-query-btn {
+      position: absolute;
+      right: 0;
+      bottom: 19px;
+    }
+  }
+  .mr6 {
+    margin-right: 6px;
+  }
+  .container {
+    background: #fff;
+    .subtask-header {
+      height: 65px;
+      padding: 22px 30px 15px 40px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      .subtask-title {
+        width: 140px;
+        height: 28px;
+        padding-left: 30px;
+        font-size: 17px;
+        color: #000;
+        line-height: 28px;
+        font-weight: 500;
+        position: relative;
+      }
+      .subtask-title:before {
+        content: ' ';
+        position: absolute;
+        background-image: url('../../../assets/taskInitiation/background.svg');
+        top: 50%;
+        transform: translate(0, -50%);
+        width: 25px;
+        height: 25px;
+        left: 0px;
+      }
+      .action-btn {
+        height: 32px;
+        background: #f3f5ff;
+        border: 1px solid #a9b8d9;
+        box-shadow: 0 2px 6px 0 rgba(27, 98, 236, 0.15);
+        border-radius: 4px;
+        color: #1b62ec;
+        border: 1px solid #a9b8d9;
+        margin-left: 10px;
+        &:hover {
+          border-color: #6b8afa;
+        }
+      }
+    }
+    .subtask-container {
+      padding: 0 30px 0 20px;
+    }
+    .subtask-footer {
+      padding: 16px 30px 22px 20px;
+    }
+  }
+}
+.subtask {
+  position: relative;
+  overflow: hidden;
+  padding: 20px 10px 20px 20px;
+  background: #fff;
+  &::after {
+    position: absolute;
+    bottom: 0;
+    display: block;
+    content: '';
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    width: 100%;
+  }
+  .SubtaskTemplate {
+    flex: 1;
+    margin-left: 15px;
+  }
+}
+.spin-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.1);
+  padding-top: 300px;
+}

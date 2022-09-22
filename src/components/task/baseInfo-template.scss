@@ -1,0 +1,26 @@
+.verticalLine {
+  display: inline-block;
+  border-right: 1px solid rgba(0, 0, 0, 0.65);
+  height: 0.9em;
+  margin: 0 6px;
+}
+.base-left {
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  .item-id {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  span:nth-last-of-type(1) {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+.base-right .svg-icon {
+  cursor: pointer;
+}
