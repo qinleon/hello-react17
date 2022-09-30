@@ -213,7 +213,7 @@ const RoleConfig = props => {
                         content={item.list.map(i => {
                           return (
                             <span key={i.id} style={{ margin: '10px' }}>
-                              <svg-icon icon-class={i.productNameEn} style={{ marginRight: '2px' }} />
+                              <svg-icon iconClass={i.productNameEn} style={{ marginRight: '2px' }} />
                               <span>{i.productName}</span>
                             </span>
                           )

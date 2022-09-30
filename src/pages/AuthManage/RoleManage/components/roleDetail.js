@@ -157,7 +157,7 @@ const ConfigDetail = props => {
               {text.slice(0, 8).map(i => {
                 return (
                   <span key={i.id} style={{ margin: '10px' }} className="flex-between-span">
-                    <svg-icon icon-className={i.productNameEn} style={{ marginRight: '2px' }} />
+                    <svg-icon iconClass={i.productNameEn} style={{ marginRight: '2px' }} />
                     <span>{i.productName}</span>
                   </span>
                 )
@@ -172,7 +172,7 @@ const ConfigDetail = props => {
               content={text.slice(8).map(i => {
                 return (
                   <span key={i.id} style={{ margin: '10px' }}>
-                    <svg-icon icon-className={i.productNameEn} style={{ marginRight: '2px' }} />
+                    <svg-icon iconClass={i.productNameEn} style={{ marginRight: '2px' }} />
                     <span>{i.productName}</span>
                   </span>
                 )

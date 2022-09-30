@@ -3,6 +3,7 @@ import { Button, Checkbox, Input, Pagination, Select, Spin, message, Modal } fro
 import { UpOutlined, DownOutlined } from '@ant-design/icons'
 import { withRouter } from 'react-router-dom'
 import { debounce as _debounce } from 'lodash'
+import SvgIcon from '@/components/SvgIcon' // svg component
 // import HeaderSearch from '@/components/header-search/index.vue'
 import SubtaskTemplate from '@src/components/task/SubtaskTemplate.js'
 // import ExtractUrl from '@/views/taskInitiation/newTask/components/extractUrl.vue'
@@ -37,7 +38,6 @@ const GkList = props => {
   let [checkedSubtaskIds, setCheckedSubtaskIds] = useState([])
   let [checkedSubtaskList, setCheckedSubtaskList] = useState([])
   let [subtaskList, setSubtaskList] = useState([])
-  console.log(subtaskList)
   let finallyTaskList = [] // 最终下发的列表
   let [headerOptions, setHeaderOptions] = useState([])
   let [urlDrawerVisible, setUrlDrawerVisible] = useState(false)
@@ -441,7 +441,7 @@ const GkList = props => {
         {/* <HeaderSearch options={headerOptions} show-line={showLine}" onChange={headerChange} /> */}
         <div className="top-query-btn flex-end">
           <Button className="base-btn" onClick={fnReset}>
-            <svg-icon icon-class="icon-reset" className="mr6" />
+            <SvgIcon iconClass="icon-reset" className="mr6" />
             重置
           </Button>
           <Button type="link" onClick={fnShowMore}>
@@ -474,25 +474,25 @@ const GkList = props => {
             />
             {props.match.params.authBtn?.includes('iddaoru') && (
               <Button className="action-btn" onClick={openIDDrawer}>
-                <svg-icon icon-class="icon-import-id" className="mr6" />
+                <SvgIcon iconClass="icon-import-id" className="mr6" />
                 ID导入
               </Button>
             )}
             {props.match.params.authBtn?.includes('urldaoru') && (
               <Button className="action-btn" onClick={openUrlDrawer}>
-                <svg-icon icon-class="icon-import-url" className="mr6" />
+                <SvgIcon iconClass="icon-import-url" className="mr6" />
                 url导入
               </Button>
             )}
             {props.match.params.authBtn?.includes('piliangxiafa') && (
               <Button className="action-btn" onClick={beforeBatchDispose}>
-                <svg-icon icon-class="icon-dispose" style={{ color: '#1b62ec' }} className="mr6" />
+                <SvgIcon iconClass="icon-dispose" style={{ color: '#1b62ec' }} className="mr6" />
                 下发
               </Button>
             )}
             {props.match.params.authBtn?.includes('piliangshanchu') && (
               <Button className="action-btn" onClick={() => delSubtask('', 'batch')}>
-                <svg-icon icon-class="yichu" style={{ color: '#1b62ec' }} className="mr6" />
+                <SvgIcon iconClass="yichu" style={{ color: '#1b62ec' }} className="mr6" />
                 移除
               </Button>
             )}
@@ -509,22 +509,22 @@ const GkList = props => {
                       onChange={() => onCheckSubtask(subtask)}
                     ></Checkbox>
                     <SubtaskTemplate tag qrcode info={subtask}>
-                      <React.Fragment>
+                      <span slot="afterBtn">
                         {props.match.params.authBtn?.includes('piliangxiafa') && subtask.greyOrWhite !== 'WHITE' && (
-                          <svg-icon
-                            icon-className="icon-dispose"
+                          <SvgIcon
+                            iconClass="icon-dispose"
                             style={{ marginLeft: '18px' }}
                             title="下发"
                             onClick={() => batchDispose([subtask])}
                           />
                         )}
-                        <svg-icon
-                          icon-className="yichu"
+                        <SvgIcon
+                          iconClass="yichu"
                           style={{ marginLeft: '18px' }}
                           title="移除"
                           onClick={() => delSubtask(subtask.id)}
                         />
-                      </React.Fragment>
+                      </span>
                     </SubtaskTemplate>
                   </div>
                 )

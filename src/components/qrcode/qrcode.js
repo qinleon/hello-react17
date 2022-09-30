@@ -1,13 +1,10 @@
-// import { copyToBoard } from '@src/utils/util'
-import React, { useState } from 'react'
+import { copyToBoard } from '@src/utils/util'
+import React from 'react'
 import { Button, Modal } from 'antd'
 import QRCode from 'qrcode.react'
-const Qrcode = props => {
-  const url = props.url
-  const visible = props.visible
-
-  const copyToBoard = () => {
-    // copyToBoard(this.url)
+const Qrcode = ({ visible, url, onClose }) => {
+  const myCopyToBoard = () => {
+    copyToBoard(url)
   }
   return (
     <>
@@ -16,12 +13,13 @@ const Qrcode = props => {
         maskClosable={true}
         zIndex={1001}
         footer={[
-          <Button type="primary" onClick={() => props.onClose}>
+          <Button key="submit" type="primary" onClick={onClose}>
             关闭
           </Button>,
         ]}
+        onCancel={onClose}
       >
-        {/* {url && (
+        {url && (
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <QRCode value={url} size={256} id="qrCode" />
           </div>
@@ -30,10 +28,10 @@ const Qrcode = props => {
           打开手机扫一扫，访问url页面查看详情
         </div>
         <div style={{ textAlign: 'center' }}>
-          <Button type="link" style={{ fontSize: '16px' }} onClick={copyToBoard}>
+          <Button type="link" style={{ fontSize: '16px' }} onClick={myCopyToBoard}>
             复制链接
           </Button>
-        </div> */}
+        </div>
       </Modal>
     </>
   )

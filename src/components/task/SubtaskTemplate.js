@@ -56,9 +56,22 @@ const SubtaskTemplate = props => {
     const domA = document.createElement('a')
     domA.setAttribute('target', '_blank')
     domA.setAttribute('href', tempHref)
-    domA.click()
+    // domA.click()
   }
-
+  const createSlot = slotName => {
+    let children = props.children
+    if (typeof children === 'object' && !Array.isArray(children)) {
+      children = [children]
+    }
+    if (children) {
+      for (let el of children) {
+        if (el.props.slot === slotName) {
+          return el
+        }
+      }
+    }
+    return null
+  }
   return (
     <div className="SubtaskTemplate">
       <div className="flex">
@@ -178,8 +191,8 @@ const SubtaskTemplate = props => {
             )}
           </div>
           <BaseInfo info={info} qrcode={qrcode} del-btn={delBtn} onDel={del}>
-            <slot name="beforeBtn"></slot>
-            <slot name="afterBtn"></slot>
+            {createSlot('beforeBtn')}
+            {createSlot('afterBtn')}
           </BaseInfo>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { isExternal } from '@/utils/validate'
 import './index.scss'
-const SvgIcon = ({ iconClass, className, title, onClick }) => {
+const SvgIcon = ({ iconClass, className, title, onClick, ...otherProps }) => {
   const isExternalFn = isExternal
   let isExternalVal = useMemo(() => isExternalFn(iconClass), [iconClass])
   let iconName = useMemo(() => `#icon-${iconClass}`, [iconClass])
@@ -16,14 +16,15 @@ const SvgIcon = ({ iconClass, className, title, onClick }) => {
     return {
       mask: `url(${iconClass}) no-repeat 50% 50%`,
       '-webkit-mask': `url(${iconClass}) no-repeat 50% 50%`,
+      ...otherProps.style,
     }
-  }, [iconClass])
+  }, [iconClass, otherProps.style])
   return (
     <>
       {isExternalVal ? (
         <div style={styleExternalIcon} className="svg-external-icon svg-icon" onClick={onClick}></div>
       ) : (
-        <svg className={`mySvg ${svgClass} ${iconClass}`} aria-hidden="true" onClick={onClick}>
+        <svg className={`mySvg ${svgClass} ${iconClass}`} aria-hidden="true" onClick={onClick} style={otherProps.style}>
           <use xlinkHref={iconName} />
           <title>{title}</title>
         </svg>

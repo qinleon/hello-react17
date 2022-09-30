@@ -1,14 +1,14 @@
 import Layouts from './layouts'
 import React from 'react'
 import 'antd/dist/antd.css'
-import { Provider } from 'react-redux'
+import { Provider, connect } from 'react-redux'
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 import store from './store'
 import { Spin } from 'antd'
 import './App.css'
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
-
+import { getDataTypeList, getDictList } from '@src/store/actions'
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -16,6 +16,10 @@ class App extends React.Component {
       isshowAdduser: false,
       isload: store.getState().isload,
     }
+  }
+  componentDidMount() {
+    this.props.getDataTypeList()
+    this.props.getDictList()
   }
 
   fn = str => {
@@ -29,12 +33,10 @@ class App extends React.Component {
     <ConfigProvider locale={zhCN}>
       <div className="App">
         <BrowserRouter>
-          <Provider store={store}>
-            <Spin size="large" className="loading" spinning={false} />
-            <Switch>
-              <Route path="/" component={Layouts}></Route>
-            </Switch>
-          </Provider>
+          <Spin size="large" className="loading" spinning={false} />
+          <Switch>
+            <Route path="/" component={Layouts}></Route>
+          </Switch>
         </BrowserRouter>
       </div>
     </ConfigProvider>
@@ -49,12 +51,20 @@ class App extends React.Component {
 // }
 
 // //把dispatch和props联系起来
-// const mapDispatchToProps = (dispatch)=>{
-//   return {
-
-//   }
-// }
-
+const mapStateToProps = state => {
+  return {
+    count: state.count,
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+    getDataTypeList() {
+      dispatch(getDataTypeList())
+    },
+    getDictList() {
+      dispatch(getDictList())
+    },
+  }
+}
 //connect()连接redux和react组件
-// export default connect(mapStateToProps,mapDispatchToProps)(App)
-export default App
+export default connect(mapStateToProps, mapDispatchToProps)(App)

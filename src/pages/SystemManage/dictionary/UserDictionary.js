@@ -61,7 +61,6 @@ const UserDictionary = props => {
 
   let copyModalForm = useRef({})
   let newQueryBackup = useRef({})
-
   useEffect(() => {
     copyModalForm.current = _.cloneDeep(modalForm)
     newQueryBackup.current = _.cloneDeep(newQuery)
@@ -456,11 +455,11 @@ const UserDictionary = props => {
           <div className="base-title">字典列表</div>
           <div v-if="isAdmin">
             <Button className="base-btn" onClick={() => openModal()}>
-              <svg-icon icon-className="add" className="mission-query-svg" />
+              <svg-icon iconClass="add" className="mission-query-svg" />
               新建
             </Button>
             <Button className="base-btn" onClick={() => fn_delete(false, '您确定要删除当前选中的字典信息吗？')}>
-              <svg-icon icon-className="icon-delete" className="mission-query-svg" />
+              <svg-icon iconClass="icon-delete" className="mission-query-svg" />
               删除
             </Button>
           </div>
