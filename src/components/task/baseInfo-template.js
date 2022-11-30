@@ -5,7 +5,7 @@ import SvgIcon from '@/components/SvgIcon' // svg component
 import './baseInfo-template.scss'
 import { connect } from 'react-redux'
 const BaseInfo = props => {
-  console.log('begin')
+  console.log('BaseInfo')
   const { info, qrcode, delBtn } = props
   let [qrcodeUrl, setQrcodeUrl] = useState('')
   let [qrcodeVisible, setQrcodeVisible] = useState(false)

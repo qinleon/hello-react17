@@ -1,0 +1,16 @@
+.headerSearch {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 8px 14px;
+  justify-content: start;
+  align-items: center;
+  .content {
+    .option-item {
+      margin-right: 20px;
+      cursor: pointer;
+      &.active {
+        border: 1px solid blue;
+      }
+    }
+  }
+}

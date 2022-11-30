@@ -45,6 +45,7 @@
     "jest-watch-typeahead": "0.6.1",
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "0.11.3",
+    "moment": "^2.29.4",
     "optimize-css-assets-webpack-plugin": "5.0.4",
     "pinyin-pro": "^3.11.0",
     "pnp-webpack-plugin": "1.6.4",

@@ -4,7 +4,7 @@ import { UpOutlined, DownOutlined } from '@ant-design/icons'
 import { withRouter } from 'react-router-dom'
 import { debounce as _debounce } from 'lodash'
 import SvgIcon from '@/components/SvgIcon' // svg component
-// import HeaderSearch from '@/components/header-search/index.vue'
+import HeaderSearch from '@/components/headerSearch/headerSearch.js'
 import SubtaskTemplate from '@src/components/task/SubtaskTemplate.js'
 // import ExtractUrl from '@/views/taskInitiation/newTask/components/extractUrl.vue'
 // import ExtractID from '@/views/taskInitiation/newTask/components/extractID.vue'
@@ -30,7 +30,7 @@ const GkList = props => {
   let [showLine, setShowLine] = useState(3)
   let [pageObj, setPageObj] = useState({
     number: 1,
-    size: 10,
+    size: 1,
     total: 0,
   })
   let [indeterminate, setIndeterminate] = useState(false)
@@ -47,8 +47,8 @@ const GkList = props => {
   let [loading, setLoading] = useState(false)
   useEffect(() => {
     // setLoading(true)
-    // getOption()
-    getSubtaskList()
+    getOption()
+    // getSubtaskList()
   }, [])
 
   // 获取管控对象列表
@@ -184,6 +184,7 @@ const GkList = props => {
   }
   // 筛选条件变化
   const headerChange = params => {
+    console.log(params)
     setQuery({
       ...query,
       createTime: [params.createTime.startTime, params.createTime.endTime],
@@ -196,7 +197,7 @@ const GkList = props => {
       ...pageObj,
       number: 1,
     })
-    getSubtaskList()
+    // getSubtaskList()
   }
   // 改变排序
   const changeDesc = () => {
@@ -438,7 +439,7 @@ const GkList = props => {
   return (
     <div className="GkList">
       <div className="top-query">
-        {/* <HeaderSearch options={headerOptions} show-line={showLine}" onChange={headerChange} /> */}
+        <HeaderSearch options={headerOptions} show-line={showLine} onChange={headerChange} />
         <div className="top-query-btn flex-end">
           <Button className="base-btn" onClick={fnReset}>
             <SvgIcon iconClass="icon-reset" className="mr6" />

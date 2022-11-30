@@ -9,7 +9,7 @@ import UserDictionary from '../pages/SystemManage/dictionary/UserDictionary'
 // 404
 import Notfound from '../pages/notfound/notfound'
 const routers = [
-  { path: '/', component: UserDictionary },
+  { path: '/', component: GkList },
   { path: '/layouts/gkList', component: GkList, meta: { authBtn: '23' }, auth: true },
   { path: '/layouts/authManage/productManage', component: ProductManage },
   { path: '/layouts/authManage/roleManage', component: RoleManage },
