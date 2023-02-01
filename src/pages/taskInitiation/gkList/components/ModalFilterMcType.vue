@@ -4,7 +4,7 @@
  * @Author: Qleo
  * @Date: 2022-06-30 17:52:21
  * @LastEditors: Qleo
- * @LastEditTime: 2022-08-30 17:04:58
+ * @LastEditTime: 2022-12-23 18:43:32
 -->
 <template>
   <a-modal
@@ -48,18 +48,18 @@ export default {
       type: Boolean,
       default() {
         return false
-      }
+      },
     },
     subtaskList: {
       type: Array,
       default() {
         return []
-      }
-    }
+      },
+    },
   },
   data() {
     return {
-      checkedMcObjectCode: ''
+      checkedMcObjectCode: '',
     }
   },
   computed: {
@@ -79,11 +79,11 @@ export default {
         arr.push({
           mcObjectCode: item[0].mcObjectCode,
           mcObjectName: item[0].mcObjectName,
-          list: item
+          list: item,
         })
       })
       return arr
-    }
+    },
   },
   mounted() {},
   methods: {
@@ -99,8 +99,8 @@ export default {
     afterClose() {
       this.checkedMcObjectCode = ''
       this.$emit('input', false)
-    }
-  }
+    },
+  },
 }
 </script>
 <style lang="less" scoped>
@@ -112,7 +112,7 @@ export default {
   .ant-modal-title:before {
     content: ' ';
     position: absolute;
-    background-image: url(../../../../assets/taskInitiation/background.svg);
+    background-image: url(../../../../assets/imgs/taskInitiation/background.svg);
     top: -1px;
     width: 25px;
     height: 25px;

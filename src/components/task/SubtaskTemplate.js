@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import BaseInfo from './baseInfo-template'
-import defalutImage from '@src/assets/tasklist-error.png'
+import defalutImage from '@src/assets/imgs/tasklist-error.png'
 import { withRouter } from 'react-router-dom'
 import './SubtaskTemplate.scss'
 const SubtaskTemplate = props => {
