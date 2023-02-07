@@ -1,4 +1,7 @@
-let initialState = {}
+import { INCREMENT, DECREMENT } from './constant'
+let initialState = {
+  count: 0,
+}
 const reducer = (state = initialState, action) => {
   const { type, payload } = action
 
@@ -55,6 +58,12 @@ const reducer = (state = initialState, action) => {
         },
       })
       return { ...state, allDictMap, allDictNameMap }
+
+    case INCREMENT:
+      return { ...state, count: state.count + payload * 1 }
+
+    case DECREMENT:
+      return { ...state, count: state.count - payload * 1 }
 
     default:
       return state

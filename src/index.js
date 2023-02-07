@@ -9,7 +9,7 @@ import { authenticateSuccess } from '@src/utils/Session.js'
 import { param2Obj } from '@src/utils/myContext.js'
 import '@/icons' // icon
 import { Provider, connect } from 'react-redux'
-import store from './store'
+import store from './store/store.js'
 import { getDataTypeList, getDictList } from '@src/store/actions'
 // 地址栏是否有code
 function login(code) {

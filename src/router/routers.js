@@ -6,6 +6,8 @@ import ProductManage from '../pages/AuthManage/ProductManage/ProductManage.js'
 import RoleManage from '../pages/AuthManage/RoleManage/RoleManage'
 // 字典管理
 import UserDictionary from '../pages/SystemManage/dictionary/UserDictionary'
+// Demo
+import Demo from '../pages/Demo/Demo'
 // 404
 import Notfound from '../pages/notfound/notfound'
 const routers = [
@@ -14,6 +16,7 @@ const routers = [
   { path: '/layouts/authManage/productManage', component: ProductManage },
   { path: '/layouts/authManage/roleManage', component: RoleManage },
   { path: '/layouts/systemManage/userDictionary', component: UserDictionary },
+  { path: '/layouts/Demo', component: Demo },
   { path: '*', component: Notfound },
 ]
 export default routers

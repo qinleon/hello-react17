@@ -28,6 +28,11 @@ class Aside extends React.Component {
           key: 'sub4',
           children: [{ label: '任务配置', key: '/layouts/systemManage/userDictionary' }],
         },
+        {
+          label: 'Demo',
+          key: 'sub5',
+          children: [{ label: '演示', key: '/layouts/Demo' }],
+        },
       ],
     }
   }

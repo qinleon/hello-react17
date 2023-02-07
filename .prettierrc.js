@@ -4,7 +4,7 @@
  * @Author: Qleo
  * @Date: 2022-04-14 15:28:47
  * @LastEditors: Qleo
- * @LastEditTime: 2022-07-21 15:14:45
+ * @LastEditTime: 2023-02-07 16:07:24
  */
 module.exports = {
   // 字符串使用单引号
@@ -28,5 +28,6 @@ module.exports = {
   // 默认值preserve（保持）。因为使用了一些折行敏感型的渲染器（如GitHub comment）而按照markdown文本样式进行折行
   proseWrap: 'never',
   //  (x) => {} 箭头函数参数只有一个时是否要有小括号。avoid：省略括号
-  arrowParens: 'avoid'
+  arrowParens: 'avoid',
+  jsxBracketSameLine: false,
 }

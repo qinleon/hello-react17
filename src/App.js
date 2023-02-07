@@ -3,7 +3,7 @@ import React from 'react'
 import 'antd/dist/antd.css'
 import { Provider, connect } from 'react-redux'
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
-import store from './store'
+import store from './store/store'
 import { Spin } from 'antd'
 import './App.css'
 import { ConfigProvider } from 'antd'
@@ -31,7 +31,7 @@ class App extends React.Component {
 
   render = () => (
     <ConfigProvider locale={zhCN}>
-      <div className="App">
+      <div className="app">
         <BrowserRouter>
           <Spin size="large" className="loading" spinning={false} />
           <Switch>
