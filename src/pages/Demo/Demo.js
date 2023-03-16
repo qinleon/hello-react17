@@ -1,61 +1,57 @@
 import React, { Component } from 'react'
 import { Button, Select } from 'antd'
-import { connect } from 'react-redux'
-import { increment, decrement } from '@src/store/actions'
-import store from '@src/store/store'
-const { Option } = Select
+import { useState } from 'react'
+import reactDom from 'react-dom'
 console.log('进入Demo')
 class Demo extends Component {
   state = {
-    selectNumber: 1,
+    count: 0,
   }
-  componentDidMount() {}
-  increment = () => {
-    console.log(store)
-    const { selectNumber } = this.state
-    this.props.increment(selectNumber)
+  myRef = React.createRef()
+  componentDidMount() {
+    this.timer = setInterval(() => {
+      let count = this.state.count
+      this.setState({ count: ++count })
+    }, 1000)
   }
-  decrement = () => {
-    const { selectNumber } = this.state
-    store.dispatch(decrement(selectNumber))
+  componentWillUnmount() {
+    clearInterval(this.timer)
   }
-  changeSelect = value => {
-    this.setState({ selectNumber: value })
+  show = () => {
+    console.log(this.myRef.current.value)
   }
   render() {
     return (
       <div>
-        <h1>当前求和为{this.props.count}</h1>
-        <Select
-          style={{ width: '200px' }}
-          value={this.state.selectNumber}
-          onChange={value => {
-            this.changeSelect(value)
-          }}
-        >
-          <Option value={1}>1</Option>
-          <Option value={2}>2</Option>
-          <Option value={3}>3</Option>
-        </Select>
-        <Button
-          onClick={() => {
-            this.increment()
-          }}
-        >
-          +
-        </Button>
-        <Button
-          onClick={() => {
-            this.decrement()
-          }}
-        >
-          -
-        </Button>
+        <h1>当前求和为{this.state.count}</h1>
+        <input type="text" ref={this.myRef} />
+        <button onClick={this.show}>展示</button>
       </div>
     )
   }
 }
 
-export default connect(state => ({ count: state.count }), {
-  increment,
-})(Demo)
+const Demo2 = props => {
+  let [count, setCount] = useState(0)
+  const myRef = React.useRef()
+  React.useEffect(() => {
+    let timer = setInterval(() => {
+      setCount(++count)
+    }, 1000)
+    return () => {
+      clearInterval(timer)
+    }
+  }, [])
+  const show = () => {
+    console.log(myRef.current.value)
+  }
+  return (
+    <>
+      <h1>当前求和为{count}</h1>
+      <input type="text" ref={myRef} />
+      <button onClick={show}>展示</button>
+    </>
+  )
+}
+
+export default Demo2

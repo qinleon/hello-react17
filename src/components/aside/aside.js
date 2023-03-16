@@ -16,6 +16,11 @@ class Aside extends React.Component {
           children: [{ label: '新建任务', key: '/layouts/gkList' }],
         },
         {
+          label: '搜索结果',
+          key: '/layouts/search',
+          icon: <MailOutlined />,
+        },
+        {
           label: '权限管理',
           key: 'sub3',
           children: [

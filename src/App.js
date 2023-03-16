@@ -1,14 +1,15 @@
 import Layouts from './layouts'
 import React from 'react'
 import 'antd/dist/antd.css'
-import { Provider, connect } from 'react-redux'
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import store from './store/store'
 import { Spin } from 'antd'
 import './App.css'
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
 import { getDataTypeList, getDictList } from '@src/store/actions'
+const UserNameContext = React.createContext()
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -38,6 +39,7 @@ class App extends React.Component {
             <Route path="/" component={Layouts}></Route>
           </Switch>
         </BrowserRouter>
+        <UserNameContext.Provider value={1}></UserNameContext.Provider>
       </div>
     </ConfigProvider>
   )

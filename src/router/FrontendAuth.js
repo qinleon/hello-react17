@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Suspense } from 'react'
 import { Route, Redirect, withRouter } from 'react-router-dom'
 import { casAuth } from '@src/utils/myContext.js'
 import { isAuthenticated } from '@src/utils/Session.js'
@@ -28,7 +28,11 @@ class FrontendAuth extends Component {
       } else {
         // 如果路由合法，就跳转到相应的路由
         if (targetRouterConfig) {
-          return <Route path={pathname} component={targetRouterConfig.component} />
+          return (
+            <Suspense fallback={<h1>12</h1>}>
+              <Route path={pathname} component={targetRouterConfig.component} />
+            </Suspense>
+          )
         } else {
           // 如果路由不合法，重定向到 404 页面
           return <Redirect to="/404" />

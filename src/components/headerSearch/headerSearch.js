@@ -15,7 +15,6 @@ const HeaderSearch = props => {
   })
   let [result, setResult] = useState(_result)
   useEffect(() => {
-    console.log(1)
     myOptions.forEach(option => {
       option.children.unshift({
         label: '全部',

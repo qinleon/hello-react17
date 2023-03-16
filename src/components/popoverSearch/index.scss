@@ -1,0 +1,35 @@
+.PopoverSearch {
+  display: inline-block;
+  user-select: none;
+
+  .ant-input-search {
+    width: 170px;
+    margin: 0 16px 4px;
+  }
+
+  .ant-input {
+    height: 25px;
+  }
+
+  .ant-popover-inner-content {
+    padding: 12px 0;
+  }
+
+  .optionList {
+    max-height: 300px;
+    overflow: auto;
+    overflow-x: hidden;
+  }
+
+  .option {
+    display: flex;
+    align-items: center;
+    height: 32px;
+    padding: 0 16px;
+    user-select: none;
+
+    &:hover {
+      background: #e7f1fd;
+    }
+  }
+}

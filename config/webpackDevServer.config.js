@@ -85,7 +85,7 @@ module.exports = function (proxy, allowedHost) {
     // src/node_modules is not ignored to support absolute imports
     // https://github.com/facebook/create-react-app/issues/1065
     watchOptions: {
-      ignored: ignoredFiles(paths.appSrc)
+      ignored: ignoredFiles(paths.appSrc),
     },
     https: getHttpsConfig(),
     host,
@@ -94,18 +94,26 @@ module.exports = function (proxy, allowedHost) {
       // Paths with dots should still use the history fallback.
       // See https://github.com/facebook/create-react-app/issues/387.
       disableDotRule: true,
-      index: paths.publicUrlOrPath
+      index: paths.publicUrlOrPath,
     },
     public: allowedHost,
     // `proxy` is run between `before` and `after` `webpack-dev-server` hooks
     proxy: {
+      '/api/gk/api': {
+        target: 'http://10.170.130.184:37003/', // 融合搜索
+        pathRewrite: {
+          '^/api': '',
+        },
+        changeOrigin: true,
+        logLevel: 'debug',
+      },
       '/api': {
         target: 'https://10.170.130.181:35002/',
         pathRewrite: { '^/api': '/prod-api' },
         changeOrigin: true,
         secure: false,
-        logLevel: 'debug'
-      }
+        logLevel: 'debug',
+      },
     },
     before(app, server) {
       // Keep `evalSourceMapMiddleware` and `errorOverlayMiddleware`
@@ -130,6 +138,6 @@ module.exports = function (proxy, allowedHost) {
       // it used the same host and port.
       // https://github.com/facebook/create-react-app/issues/2272#issuecomment-302832432
       app.use(noopServiceWorkerMiddleware(paths.publicUrlOrPath))
-    }
+    },
   }
 }
