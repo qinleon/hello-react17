@@ -5,33 +5,32 @@
 import { Radio, DatePicker } from 'antd'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
+import 'moment/locale/zh-cn'
 const { RangePicker } = DatePicker
-
+moment.locale('zh-cn')
 const TimeSearch = props => {
   const [time, setTime] = useState([])
   const [timeType, setTimeType] = useState('0')
   const formatTime = myTimeType => {
-    const now = moment()
+    const now = moment().format('x')
     if (myTimeType === 'custom') {
       return
     } else if (myTimeType === '') {
       return []
     } else {
-      return [moment().subtract(Number(myTimeType), 'days').startOf('day'), now]
+      return [moment().subtract(Number(myTimeType), 'days').startOf('day').format('x'), now]
     }
   }
   const timeChange = ({ target: { value } }) => {
-    if (value === 'custom') {
-      return
-    }
     let myTime = formatTime(value)
     props.onChange(value, JSON.parse(JSON.stringify(myTime || time)))
     setTimeType(value)
     setTime(myTime)
   }
-  const rangePickerOk = arg => {
-    console.log(arg)
-    props.onChange(timeType, JSON.parse(JSON.stringify(time)))
+  const rangePickerOk = moments => {
+    let _time = moments.map(time => moment(time).format('x'))
+    setTime(_time)
+    props.onChange(timeType, JSON.parse(JSON.stringify(_time)))
   }
 
   useEffect(() => {
@@ -45,8 +44,8 @@ const TimeSearch = props => {
         <Radio.Group onChange={timeChange} options={props.optionList} value={timeType}></Radio.Group>
         {timeType === 'custom' && (
           <RangePicker
-            onOk={rangePickerOk}
-            show-time={{
+            onChange={rangePickerOk}
+            showTime={{
               format: 'HH:mm:ss',
               hideDisabledOptions: true,
               defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')],

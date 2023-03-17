@@ -1,13 +1,23 @@
-import React, { useState, useMemo, Fragment } from 'react'
+import React, { useState, Fragment, useEffect, useRef } from 'react'
 import { getPinyin } from '@/utils/util'
 import _debounce from 'lodash.debounce'
 import PropTypes from 'prop-types'
 import { Checkbox, Popover, Input } from 'antd'
 import './index.scss'
 function PopoverSearch(props) {
+  const [productList, setProductList] = useState([])
   const [checkedIdList, setCheckedIdList] = useState([])
-  const [checkedProductList, setCheckedProductList] = useState([])
-  const [filterIdList, setFilterIdList] = useState([])
+  const checkedIdListRef = useRef(checkedIdList)
+
+  useEffect(() => {
+    props.productList.forEach(group => {
+      group.filterIdList = group.children.map(item => item.id)
+      group.indeterminate = false
+      group.checkAll = false
+      group.checkedNum = 0
+    })
+    setProductList(JSON.parse(JSON.stringify(props.productList)))
+  }, [props.productList])
 
   // 模糊搜索
   const fuzzySearch = _debounce(function (value, group) {
@@ -16,70 +26,9 @@ function PopoverSearch(props) {
         return item.name.includes(value)
       })
       .map(item => item.id)
+    setProductList(productList)
     judgeCheckAll(group)
   }, 500)
-
-  const formatProductList = () => {
-    props.productList.forEach(group => {
-      group.indeterminate = false
-      group.checkAll = false
-      group.checkedNum = 0
-    })
-  }
-  formatProductList()
-  // 判断全选、半选状态
-  const judgeCheckAll = group => {
-    if (group.children?.length === 0 && checkedIdList.includes(group.id)) {
-      group.checkAll = true
-      return
-    }
-    // 过滤后的可见数据中选中的长度
-    let viewCheckedLength = 0
-    if (checkedIdList.length) {
-      viewCheckedLength = checkedIdList.filter(code => {
-        return filterIdList.includes(code)
-      }).length
-    }
-    group.indeterminate = !!viewCheckedLength && viewCheckedLength < filterIdList.length
-    group.checkAll = !!viewCheckedLength && viewCheckedLength === filterIdList.length
-    group.checkedNum = group.children.filter(item => checkedIdList.includes(item.id)).length
-  }
-  // 全选
-  const onCheckAllChange = (e, group) => {
-    let checkedIds = []
-    if (e.target.checked) {
-      if (group.children?.length) {
-        checkedIds = [...new Set(checkedIdList.concat(filterIdList))]
-      } else {
-        checkedIds = [group.id]
-      }
-    } else {
-      if (group.children?.length) {
-        checkedIds = checkedIdList.filter(item => {
-          return !filterIdList.includes(item)
-        })
-      } else {
-        checkedIds = []
-      }
-    }
-    setCheckedIdList(checkedIds)
-    let arr = []
-    props.productList.forEach(group => {
-      if (group.children?.length) {
-        group.children.forEach(product => {
-          if (checkedIds.includes(group.id)) {
-            arr.push(group)
-          }
-        })
-      } else {
-        if (checkedIds.includes(group.id)) {
-          arr.push(group)
-        }
-      }
-    })
-    setCheckedProductList(arr)
-    props.onChange(checkedProductList)
-  }
   // 单选
   const onCheckChange = (option, group) => {
     if (!checkedIdList.includes(option.id)) {
@@ -92,12 +41,70 @@ function PopoverSearch(props) {
       })
     }
     setCheckedIdList(checkedIdList)
+    checkedIdListRef.current = checkedIdList
     const checkedOptionList = group.children.filter(item => {
-      return checkedIdList.includes(item.id)
+      return checkedIdListRef.current.includes(item.id)
     })
     props.onChange(checkedOptionList)
     judgeCheckAll(group)
   }
+  // 全选
+  const onCheckAllChange = (e, group) => {
+    let checkedIds = []
+    if (e.target.checked) {
+      if (group.children?.length) {
+        checkedIds = [...new Set(checkedIdList.concat(group.filterIdList))]
+      } else {
+        checkedIds = [group.id]
+      }
+    } else {
+      if (group.children?.length) {
+        checkedIds = checkedIdList.filter(item => {
+          return !group.filterIdList.includes(item)
+        })
+      } else {
+        checkedIds = []
+      }
+    }
+    setCheckedIdList(checkedIds)
+    checkedIdListRef.current = checkedIds
+    judgeCheckAll(group)
+
+    let arr = []
+    productList.forEach(group => {
+      if (group.children?.length) {
+        group.children.forEach(product => {
+          if (checkedIds.includes(product.id)) {
+            arr.push(product)
+          }
+        })
+      } else {
+        if (checkedIds.includes(group.id)) {
+          arr.push(group)
+        }
+      }
+    })
+    props.onChange(arr)
+  }
+  // 判断全选、半选状态
+  const judgeCheckAll = group => {
+    if (group.children?.length === 0 && checkedIdListRef.current.includes(group.id)) {
+      group.checkAll = true
+      return
+    }
+    // 过滤后的可见数据中选中的长度
+    let viewCheckedLength = 0
+    if (checkedIdListRef.current.length) {
+      viewCheckedLength = checkedIdListRef.current.filter(code => {
+        return group.filterIdList.includes(code)
+      }).length
+    }
+    group.indeterminate = !!viewCheckedLength && viewCheckedLength < group.filterIdList.length
+    group.checkAll = !!viewCheckedLength && viewCheckedLength === group.filterIdList.length
+    group.checkedNum = group.children.filter(item => checkedIdListRef.current.includes(item.id)).length
+    setProductList(productList)
+  }
+
   const visibleChange = (visible, group) => {
     if (!visible) {
       fuzzySearch('', group)
@@ -105,11 +112,11 @@ function PopoverSearch(props) {
   }
   return (
     <div className="PopoverSearch">
-      {props.productList.map(group => {
+      {productList.map(group => {
         return (
           <Popover
             placement="bottom"
-            getPopupContainer={e => e.parentNode}
+            getPopupContainer={e => e.parentNode.parentNode}
             key={group.id}
             content={
               group.children.length && (
@@ -118,7 +125,7 @@ function PopoverSearch(props) {
                   <div className="optionList">
                     {group.children.map(option => {
                       return (
-                        filterIdList.includes(option.id) && (
+                        group.filterIdList?.includes(option.id) && (
                           <div key={option.id} className="option">
                             <Checkbox
                               checked={checkedIdList.includes(option.id)}

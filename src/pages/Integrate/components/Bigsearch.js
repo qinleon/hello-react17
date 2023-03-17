@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import './BigSearch.scss'
 import { Select, Button, Input, Checkbox } from 'antd'
 import SvgIcon from '../../../components/SvgIcon'
@@ -8,6 +8,7 @@ import CheckboxSearch from '@/components/checkboxSearch/CheckboxSearch.jsx'
 import PopoverSearch from '@src/components/popoverSearch/PopoverSearch'
 import { getDic } from '@/api/integrateSearch'
 import _clonedeep from 'lodash.clonedeep'
+import useSyncCallback from '@src/hooks/useSyncCallback.js'
 const { Option } = Select
 
 export const Bigsearch = () => {
@@ -27,7 +28,7 @@ export const Bigsearch = () => {
   const [pinyinTypeOptions, setPinyinTypeOptions] = useState([])
   const [languageTypeOptions, setLanguageTypeOptions] = useState([])
   const [regTypeOptions, setRegTypeOptions] = useState([])
-  const [publishTime, setPublishTime] = useState({ type: 0, time: [] }) // 发布时间
+  const [publishTime, setPublishTime] = useState({ type: '0', time: [] }) // 发布时间
   const [gkStateList, setGkStateList] = useState(['']) // 数据可见状态
   let allProductMap = {} //产品列表接口返回的数据\
   const [productList, setProductList] = useState([]) //产品列表
@@ -134,7 +135,7 @@ export const Bigsearch = () => {
   const changeMenu = menu => {}
   const publishTimeChange = (timeType, time) => {
     setPublishTime({ type: timeType, time: time })
-    formatCondition()
+    syncFormatCondition()
   }
   const checkboxSearchChange = value => {
     console.log('checkboxSearchChange', value)
@@ -145,7 +146,7 @@ export const Bigsearch = () => {
     setProductCheckAll(true)
     setCheckedProductList([])
     setCheckedProductIdList([])
-    formatCondition()
+    syncFormatCondition()
   }
   // 数据通道改变
   const productListChange = checkedList => {
@@ -153,7 +154,7 @@ export const Bigsearch = () => {
     setCheckedProductList(checkedList)
     setCheckedProductIdList(checkedProductList.map(item => item.id))
     setProductCheckAll(!checkedProductIdList.length)
-    formatCondition()
+    syncFormatCondition()
   }
   const formatCondition = () => {
     try {
@@ -246,6 +247,8 @@ export const Bigsearch = () => {
       curMenu: curMenu,
     })
   }
+  const syncFormatCondition = useSyncCallback(formatCondition)
+
   return (
     <div className="BigSearch">
       {/* <!-- ----------------------3个搜索框--------------------- --> */}

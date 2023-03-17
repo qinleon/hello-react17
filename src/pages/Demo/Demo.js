@@ -1,57 +1,19 @@
-import React, { Component } from 'react'
-import { Button, Select } from 'antd'
-import { useState } from 'react'
-import reactDom from 'react-dom'
-console.log('进入Demo')
-class Demo extends Component {
-  state = {
-    count: 0,
-  }
-  myRef = React.createRef()
-  componentDidMount() {
-    this.timer = setInterval(() => {
-      let count = this.state.count
-      this.setState({ count: ++count })
-    }, 1000)
-  }
-  componentWillUnmount() {
-    clearInterval(this.timer)
-  }
-  show = () => {
-    console.log(this.myRef.current.value)
-  }
-  render() {
-    return (
-      <div>
-        <h1>当前求和为{this.state.count}</h1>
-        <input type="text" ref={this.myRef} />
-        <button onClick={this.show}>展示</button>
-      </div>
-    )
-  }
-}
+import React, { useState } from 'react'
 
-const Demo2 = props => {
-  let [count, setCount] = useState(0)
-  const myRef = React.useRef()
-  React.useEffect(() => {
-    let timer = setInterval(() => {
-      setCount(++count)
-    }, 1000)
-    return () => {
-      clearInterval(timer)
-    }
-  }, [])
-  const show = () => {
-    console.log(myRef.current.value)
+export default function Demo(props) {
+  const [person, setPerson] = useState({ name: '张三' })
+  const changeName = () => {
+    setPerson({ name: '李四' })
+    addAge()
+  }
+  const addAge = () => {
+    setPerson({ name: '李四', age: 18 })
+    props.onChange(person)
   }
   return (
-    <>
-      <h1>当前求和为{count}</h1>
-      <input type="text" ref={myRef} />
-      <button onClick={show}>展示</button>
-    </>
+    <div>
+      姓名：{person.name}
+      <button onClick={changeName}>点击改名</button>
+    </div>
   )
 }
-
-export default Demo2

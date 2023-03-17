@@ -13,14 +13,15 @@ const CheckboxSearch = props => {
   }, [props.value])
 
   const change = checkeds => {
+    let _checkedList
     // 如果点击了‘不限’，或没有勾选，则传['']
     if (checkeds[checkeds.length - 1] === '' || checkeds.length === 0) {
-      setCheckedList([''])
+      _checkedList = ['']
     } else {
-      setCheckedList(checkeds.filter(item => item !== ''))
+      _checkedList = checkeds.filter(item => item !== '')
     }
-    props.onInput(checkedList)
-    props.onChange(checkedList)
+    setCheckedList(_checkedList)
+    props.onChange(_checkedList)
   }
   return (
     <div className="CheckboxSearch">

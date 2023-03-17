@@ -11,6 +11,9 @@ import '@/icons' // icon
 import { Provider, connect } from 'react-redux'
 import store from './store/store.js'
 import { getDataTypeList, getDictList } from '@src/store/actions'
+import locale from 'antd/es/locale/zh_CN'
+import { ConfigProvider } from 'antd'
+
 // 地址栏是否有code
 function login(code) {
   return new Promise((resolve, reject) => {
@@ -54,7 +57,9 @@ const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App)
     // 那么就可以在所有后代中直接使用Redux了
     <Provider store={store}>
       <React.StrictMode>
-        <AppContainer />
+        <ConfigProvider locale={locale}>
+          <AppContainer />
+        </ConfigProvider>
       </React.StrictMode>
     </Provider>,
     document.getElementById('root')
