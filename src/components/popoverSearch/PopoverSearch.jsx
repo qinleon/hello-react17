@@ -18,6 +18,13 @@ function PopoverSearch(props) {
     })
     setProductList(JSON.parse(JSON.stringify(props.productList)))
   }, [props.productList])
+  useEffect(() => {
+    setCheckedIdList(JSON.parse(JSON.stringify(props.checkedList)))
+    checkedIdListRef.current = JSON.parse(JSON.stringify(props.checkedList))
+    props.productList.forEach(group => {
+      judgeCheckAll(group)
+    })
+  }, [props.checkedList])
 
   // 模糊搜索
   const fuzzySearch = _debounce(function (value, group) {
@@ -26,7 +33,7 @@ function PopoverSearch(props) {
         return item.name.includes(value)
       })
       .map(item => item.id)
-    setProductList(productList)
+    setProductList(JSON.parse(JSON.stringify(productList)))
     judgeCheckAll(group)
   }, 500)
   // 单选
@@ -102,7 +109,14 @@ function PopoverSearch(props) {
     group.indeterminate = !!viewCheckedLength && viewCheckedLength < group.filterIdList.length
     group.checkAll = !!viewCheckedLength && viewCheckedLength === group.filterIdList.length
     group.checkedNum = group.children.filter(item => checkedIdListRef.current.includes(item.id)).length
-    setProductList(productList)
+    productList.forEach(item => {
+      if (item.id === group.id) {
+        item.checkAll = group.checkAll
+        item.indeterminate = group.indeterminate
+        item.checkedNum = group.checkedNum
+      }
+    })
+    setProductList(JSON.parse(JSON.stringify(productList)))
   }
 
   const visibleChange = (visible, group) => {

@@ -1,17 +1,20 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import './BigSearch.scss'
-import { Select, Button, Input, Checkbox } from 'antd'
+import { Select, Button, Input, Checkbox, Popover } from 'antd'
+import { PlusSquareOutlined, MinusSquareOutlined, UpOutlined, DownOutlined, CloseOutlined } from '@ant-design/icons'
 import SvgIcon from '../../../components/SvgIcon'
-import { PlusSquareOutlined, MinusSquareOutlined, UpOutlined, DownOutlined } from '@ant-design/icons'
 import TimeSearch from '../../../components/timeSearch/TimeSearch'
 import CheckboxSearch from '@/components/checkboxSearch/CheckboxSearch.jsx'
 import PopoverSearch from '@src/components/popoverSearch/PopoverSearch'
 import { getDic } from '@/api/integrateSearch'
-import _clonedeep from 'lodash.clonedeep'
+import _ from 'lodash'
 import useSyncCallback from '@src/hooks/useSyncCallback.js'
+import moment from 'moment'
 const { Option } = Select
 
-export const Bigsearch = () => {
+let allProductMap = {} //产品列表接口返回的数据
+
+export const Bigsearch = props => {
   const [expandStatus, setExpandStatus] = useState(true)
   const [relation, setRelation] = useState('AND')
   const [relationSearch, setRelationSearch] = useState([
@@ -30,7 +33,6 @@ export const Bigsearch = () => {
   const [regTypeOptions, setRegTypeOptions] = useState([])
   const [publishTime, setPublishTime] = useState({ type: '0', time: [] }) // 发布时间
   const [gkStateList, setGkStateList] = useState(['']) // 数据可见状态
-  let allProductMap = {} //产品列表接口返回的数据\
   const [productList, setProductList] = useState([]) //产品列表
   const [productCheckAll, setProductCheckAll] = useState(true) // 不限产品选中状态
   const [checkedProductList, setCheckedProductList] = useState([]) //  选中的产品
@@ -64,7 +66,7 @@ export const Bigsearch = () => {
   const getProductList = () => {
     try {
       const format = () => {
-        const _allProductMap = _clonedeep(allProductMap)
+        const _allProductMap = _.cloneDeep(allProductMap)
         console.log(_allProductMap)
         let _productList = []
         if (curMenu === 'MC_GROUP') {
@@ -90,6 +92,7 @@ export const Bigsearch = () => {
             }
           })
         })
+        console.log('_productList', _productList)
         setProductList(_productList)
         // 获取当前菜单下的产品总数
         setProductListLen(0)
@@ -123,22 +126,71 @@ export const Bigsearch = () => {
     getProductList()
   }, [])
   useEffect(() => {
-    console.log(allParams)
+    console.log('allParams', allParams)
   }, [allParams])
 
   const onKeyWordsSearch = () => {}
   const addInputNum = () => {}
   const reduceInputNum = index => {}
   const expandToggle = () => {}
-  const resetQuery = () => {}
+  const resetQuery = type => {
+    setProductCheckAll(true)
+    setCheckedProductList([])
+    setCheckedProductIdList([])
+    setPublishTime({ type: '0', time: [moment().startOf('day').format('x'), moment().format('x')] }) // 发布时间
+    setGkStateList(['']) // 数据可见状态
+    setMsgTypeList(['']) // 匹配方式
+    setPinyinType(['']) // 拓展
+    setLanguageType(['']) // 语言
+    if (type !== 'changeMenu') {
+      setRelationSearch([
+        {
+          id: Math.random(),
+          searchType: 'all',
+          searchWord: '',
+        },
+      ])
+    }
+    syncFormatCondition()
+    props.change && props.change()
+    props.reset && props.reset()
+  }
   const saveQuery = () => {}
-  const changeMenu = menu => {}
+  const changeMenu = menu => {
+    setCurMenu(menu)
+    relationSearch.forEach(item => {
+      item.searchType = 'all'
+    })
+    let max = 3
+    if (curMenu === 'MC_CONTENT' || curMenu === 'MC_LIVE_STREAM') {
+      max = 4
+    }
+    if (relationSearch.length > max) {
+      relationSearch.splice(max, relationSearch.length - max)
+    }
+    setRelationSearch(relationSearch)
+  }
+  useEffect(() => {
+    getProductList()
+    resetQuery('changeMenu')
+  }, [curMenu])
   const publishTimeChange = (timeType, time) => {
     setPublishTime({ type: timeType, time: time })
     syncFormatCondition()
   }
-  const checkboxSearchChange = value => {
-    console.log('checkboxSearchChange', value)
+  const checkboxSearchChange = (type, value) => {
+    if (type === 'msgTypeList') {
+      setMsgTypeList(value)
+    } else if (type === 'pinyinType') {
+      setPinyinType(value)
+    } else if (type === 'regType') {
+      setRegType(value)
+    } else if (type === 'languageType') {
+      setLanguageType(value)
+    } else if (type === 'gkStateList') {
+      setGkStateList(value)
+    }
+    syncFormatCondition()
   }
 
   // 清空产品列表
@@ -152,8 +204,56 @@ export const Bigsearch = () => {
   const productListChange = checkedList => {
     console.log('产品列表change', checkedList)
     setCheckedProductList(checkedList)
-    setCheckedProductIdList(checkedProductList.map(item => item.id))
-    setProductCheckAll(!checkedProductIdList.length)
+    setCheckedProductIdList(checkedList.map(item => item.id))
+    setProductCheckAll(!checkedList.length)
+    syncFormatCondition()
+  }
+  // 删除某个条件中的一个值
+  const delConditionValue = (condition, value) => {
+    if (condition.value === 'gkStateList') {
+      const arr = gkStateList.filter(item => item !== value)
+      arr.length > 0 ? setGkStateList(arr) : setGkStateList([''])
+    } else if (condition.value === 'msgTypeList') {
+      const arr = msgTypeList.filter(item => item !== value)
+      arr.length > 0 ? setMsgTypeList(arr) : setMsgTypeList([''])
+    } else if (condition.value === 'pinyinType') {
+      const arr = pinyinType.filter(item => item !== value)
+      arr.length > 0 ? setPinyinType(arr) : setPinyinType([''])
+    } else if (condition.value === 'regType') {
+      const arr = regType.filter(item => item !== value)
+      arr.length > 0 ? setRegType(arr) : setRegType([''])
+    } else if (condition.value === 'languageType') {
+      const arr = languageType.filter(item => item !== value)
+      arr.length > 0 ? setLanguageType(arr) : setLanguageType([''])
+    }
+    if (condition.value === 'productList') {
+      setCheckedProductList(checkedProductList.filter(item => item.id !== value))
+      setCheckedProductIdList(checkedProductIdList.filter(item => item !== value))
+      if (!checkedProductIdList.length) {
+        setProductCheckAll(true)
+      }
+    }
+    syncFormatCondition()
+  }
+  // 删除某个条件
+  const delCondition = condition => {
+    if (Array.isArray(condition.content)) {
+      if (condition.value === 'productList') {
+        setCheckedProductList([])
+        setCheckedProductIdList([])
+        setProductCheckAll(true)
+      } else if (condition.value === 'gkStateList') {
+        setGkStateList([''])
+      } else if (condition.value === 'msgTypeList') {
+        setMsgTypeList([''])
+      } else if (condition.value === 'pinyinType') {
+        setPinyinType([''])
+      } else if (condition.value === 'regType') {
+        setRegType([''])
+      } else if (condition.value === 'languageType') {
+        setLanguageType([''])
+      }
+    }
     syncFormatCondition()
   }
   const formatCondition = () => {
@@ -383,7 +483,11 @@ export const Bigsearch = () => {
           <div className="row-item right" style={{ borderTop: '1px dashed #c3c3c3' }}>
             <div className="label">数据可见状态：</div>
             <div className="row-content">
-              <CheckboxSearch value={gkStateList} option-list={disposeStatusOptions} onChange={checkboxSearchChange} />
+              <CheckboxSearch
+                value={gkStateList}
+                optionList={disposeStatusOptions}
+                onChange={value => checkboxSearchChange('gkStateList', value)}
+              />
             </div>
           </div>
         )}
@@ -402,9 +506,108 @@ export const Bigsearch = () => {
               allResNum
             }}) --> */}
             </Checkbox>
-            <PopoverSearch productList={productList} style={{ margin: '3px 0' }} onChange={productListChange} />
+            <PopoverSearch
+              productList={productList}
+              checkedList={checkedProductIdList}
+              style={{ margin: '3px 0' }}
+              onChange={productListChange}
+            />
           </div>
         </div>
+        {expandStatus && curMenu === 'MC_CONTENT' && (
+          <div className="row-item left">
+            <div className="label">匹配方式：</div>
+            <div className="row-content">
+              <CheckboxSearch
+                value={msgTypeList}
+                optionList={matchTypeOptions}
+                onChange={value => checkboxSearchChange('msgTypeList', value)}
+              />
+            </div>
+          </div>
+        )}
+        {expandStatus && (
+          <div className={`row-item ${curMenu === 'MC_CONTENT' ? 'right' : 'left'}`}>
+            <div className="label">拓展：</div>
+            <div className="row-content">
+              <CheckboxSearch
+                value={pinyinType}
+                optionList={pinyinTypeOptions}
+                onChange={value => checkboxSearchChange('pinyinType', value)}
+              />
+            </div>
+          </div>
+        )}
+        {expandStatus && (
+          <div className="row-item" style={{ width: curMenu === 'MC_CONTENT' ? '100%' : '40%' }}>
+            <div className="label">语言：</div>
+            <div className="row-content">
+              <CheckboxSearch
+                value={languageType}
+                optionList={languageTypeOptions}
+                onChange={value => checkboxSearchChange('languageType', value)}
+              />
+            </div>
+          </div>
+        )}
+      </div>
+      {/* <!-- ----------------------已选条件--------------------- --> */}
+      <div className="conditionListWrap">
+        {conditionList.some(condition => condition.content && condition.content.length) && (
+          <div className="flex">
+            <div style={{ lineHeight: '32px', fontWeight: '600', paddingLeft: '4px' }}>已选条件：</div>
+            <div className="condition-list flex-1">
+              {conditionList.map(condition => {
+                return (
+                  condition.content &&
+                  condition.content.length > 0 && (
+                    <div key={condition.value} className="condition">
+                      {condition.label}：
+                      {condition.content &&
+                        condition.content.slice(0, 6).map(item2 => {
+                          return (
+                            Array.isArray(condition.content) && (
+                              <div key={item2.value} className="condition-value">
+                                {item2.name}
+                                <CloseOutlined onClick={() => delConditionValue(condition, item2.value)} />
+                              </div>
+                            )
+                          )
+                        })}
+                      {Array.isArray(condition.content) && condition.content.length > 6 && (
+                        <Popover
+                          placement="bottom"
+                          get-popup-container={e => e.parentNode}
+                          content={
+                            condition.content &&
+                            condition.content.slice(6).map(item2 => {
+                              return (
+                                Array.isArray(condition.content) && (
+                                  <div key={item2.value} className="condition-value" style={{ margin: ' 4px 0' }}>
+                                    {item2.name}
+                                    <CloseOutlined onClick={() => delConditionValue(condition, item2.value)} />
+                                  </div>
+                                )
+                              )
+                            })
+                          }
+                        >
+                          <div className="condition-value">
+                            {'+' + (condition.content && condition.content.length - 6)}
+                          </div>
+                        </Popover>
+                      )}
+                      {typeof condition.content === 'string' && (
+                        <div className="condition-value">{condition.content}</div>
+                      )}
+                      <CloseOutlined onClick={() => delCondition(condition)} />
+                    </div>
+                  )
+                )
+              })}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
